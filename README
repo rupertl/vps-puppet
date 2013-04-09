@@ -1,0 +1,4 @@
+This is the puppet configuration for my VPS 'udon'.
+
+To apply, clone the git repo to /etc/puppet and then run
+   puppet apply /etc/puppet/manifests/udon.pp
