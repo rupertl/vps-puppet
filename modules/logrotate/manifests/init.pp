@@ -19,7 +19,7 @@ class logrotate {
 
   file { "$config_dir/spamassassin":
     ensure => present,
-    source => 'puppet:///modules/logrotate/nginx',
+    source => 'puppet:///modules/logrotate/spamassassin',
     owner => 'root',
     group => 'root',
     mode => '644',
