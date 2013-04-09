@@ -13,7 +13,7 @@ class logrotate {
     source => 'puppet:///modules/logrotate/nginx',
     owner => 'root',
     group => 'root',
-    mode => '644'
+    mode => '644',
     require => Package['logrotate'],
   }
 
@@ -22,7 +22,7 @@ class logrotate {
     source => 'puppet:///modules/logrotate/nginx',
     owner => 'root',
     group => 'root',
-    mode => '644'
+    mode => '644',
     require => Package['logrotate'],
   }
 
