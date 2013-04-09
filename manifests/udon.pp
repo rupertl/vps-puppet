@@ -3,3 +3,4 @@
 # run by eg
 #    puppet apply -e 'include postfix'
 
+include logrotate
