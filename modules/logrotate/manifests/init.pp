@@ -8,22 +8,21 @@ class logrotate {
     ensure => installed,
   }
 
-  file { "$config_dir/nginx":
-    ensure => present,
-    source => 'puppet:///modules/logrotate/nginx',
+  File {
     owner => 'root',
     group => 'root',
     mode => '644',
     require => Package['logrotate'],
+  }    
+
+  file { "$config_dir/nginx":
+    ensure => present,
+    source => 'puppet:///modules/logrotate/nginx',
   }
 
   file { "$config_dir/spamassassin":
     ensure => present,
     source => 'puppet:///modules/logrotate/spamassassin',
-    owner => 'root',
-    group => 'root',
-    mode => '644',
-    require => Package['logrotate'],
   }
 
   # No service dependency as we don't need to run log rotation after
