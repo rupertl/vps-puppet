@@ -1,0 +1,32 @@
+# nginx site config - managed by puppet
+
+# Tiny Tiny RSS instance
+server {
+    access_log /var/log/nginx/ttrss-access.log;
+    root /data/websites/prod/ttrss.rupert-lane.org;
+    index index.html index.htm index.php;
+
+    server_name ttrss.rupert-lane.org;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # Deny access to lock and cache directories
+    location ~ /cache/ { deny  all; }
+    location ~ /lock/  { deny  all; }
+
+    location ~ \.php$ {
+        gzip off;
+        include /etc/nginx/fastcgi_params;
+
+        # Filter out arbitrary code execution
+        location ~ \..*/.*\.php$ {return 404;}
+
+        fastcgi_pass unix:/tmp/php.socket;
+        fastcgi_index index.pl;
+    }
+
+    # This will deny access to any hidden file (beginning with a .period)
+    location ~ /\. { deny  all; }
+}
