@@ -52,11 +52,11 @@ class postfix {
   file { "/etc/aliases":
     ensure => present,
     source => 'puppet:///modules/postfix/aliases',
-    notify => Exec['postmap aliases'],
+    notify => Exec['newaliases'],
   }
 
-  exec { 'postmap aliases':
-    command => "/usr/sbin/postmap /etc/aliases",
+  exec { 'newaliases':
+    command => "/usr/bin/newaliases",
     refreshonly => true
   }
   
