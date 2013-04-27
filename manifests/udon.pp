@@ -10,5 +10,6 @@ nginx::site {'qxnp.rupert-lane.org':}
 nginx::site {'ttrss.rupert-lane.org':}
 include postfix
 include logwatch
+include radicale
 
 
