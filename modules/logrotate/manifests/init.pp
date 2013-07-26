@@ -15,14 +15,16 @@ class logrotate {
     require => Package['logrotate'],
   }    
 
-  file { "$config_dir/nginx":
-    ensure => present,
-    source => 'puppet:///modules/logrotate/nginx',
-  }
+  if $hostname == "udon" {
+    file { "$config_dir/nginx":
+      ensure => present,
+      source => 'puppet:///modules/logrotate/nginx',
+    }
 
-  file { "$config_dir/spamassassin":
-    ensure => present,
-    source => 'puppet:///modules/logrotate/spamassassin',
+    file { "$config_dir/spamassassin":
+      ensure => present,
+      source => 'puppet:///modules/logrotate/spamassassin',
+    }
   }
 
   # No service dependency as we don't need to run log rotation after
