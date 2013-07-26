@@ -4,6 +4,7 @@
 #    puppet apply -e 'include postfix'
 
 include logrotate
+include ntpd
 include nginx
 nginx::site {'www.rupert-lane.org':}
 nginx::site {'qxnp.rupert-lane.org':}

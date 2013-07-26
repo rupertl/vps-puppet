@@ -4,3 +4,4 @@
 #    puppet apply -e 'include postfix'
 
 include logrotate
+include ntpd
