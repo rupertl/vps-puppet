@@ -1,4 +1,6 @@
-This is the puppet configuration for my VPS 'udon'.
+This is the puppet configuration for my VPSs.
 
 To apply, clone the git repo to /etc/puppet and then run
-   puppet apply /etc/puppet/manifests/udon.pp
+   puppet apply /etc/puppet/manifests/`hostname`.pp
+
+License: 3-clause new BSD; see LICENSE file.
