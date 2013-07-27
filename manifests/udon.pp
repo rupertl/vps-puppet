@@ -5,11 +5,16 @@
 
 include logrotate
 include ntpd
+
 include nginx
 nginx::site {'www.rupert-lane.org':}
 nginx::site {'qxnp.rupert-lane.org':}
 nginx::site {'ttrss.rupert-lane.org':}
-include postfix
+
+class {'postfix':
+  server_type  => 'mailhost'
+}
+
 include logwatch
 include radicale
 

@@ -5,3 +5,8 @@
 
 include logrotate
 include ntpd
+
+class {'postfix':
+  server_type  => 'satellite'
+}
+
