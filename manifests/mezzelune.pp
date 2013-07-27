@@ -10,3 +10,4 @@ class {'postfix':
   server_type  => 'satellite'
 }
 
+include pup_check
