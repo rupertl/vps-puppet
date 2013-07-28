@@ -3,6 +3,7 @@
 # run by eg
 #    puppet apply -e 'include postfix'
 
+include apticron
 include logrotate
 include ntpd
 
