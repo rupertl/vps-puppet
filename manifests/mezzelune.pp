@@ -5,6 +5,7 @@
 
 include apticron
 include logrotate
+include logwatch
 include ntpd
 
 class {'postfix':
