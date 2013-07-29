@@ -4,6 +4,7 @@
 #    puppet apply -e 'include postfix'
 
 include apticron
+include etckeeper
 include logrotate
 include ntpd
 
