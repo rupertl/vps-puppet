@@ -8,6 +8,7 @@ include etckeeper
 include logrotate
 include ntpd
 
+include php
 include nginx
 nginx::site {'www.rupert-lane.org':}
 nginx::site {'qxnp.rupert-lane.org':}
