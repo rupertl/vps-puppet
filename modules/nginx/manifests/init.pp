@@ -3,7 +3,7 @@
 
 class nginx {
   $config_dir = "/etc/nginx"
-  
+
   package { 'nginx':
     ensure => installed,
   }
@@ -14,11 +14,21 @@ class nginx {
     mode => '644',
     require => Package['nginx'],
     notify => Service['nginx'],
-  }    
+  }
 
   file { "$config_dir/nginx.conf":
     ensure => present,
     source => 'puppet:///modules/nginx/nginx.conf',
+  }
+
+  file { "$config_dir/conf.d/php-socket.conf":
+    ensure => present,
+    source => 'puppet:///modules/nginx/php-socket.conf',
+  }
+
+  file { "$config_dir/fastcgi_params":
+    ensure => present,
+    source => 'puppet:///modules/nginx/fastcgi_params',
   }
 
   service { 'nginx':

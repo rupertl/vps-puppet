@@ -16,15 +16,15 @@ server {
     location ~ /cache/ { deny  all; }
     location ~ /lock/  { deny  all; }
 
-    location ~ \.php$ {
-        gzip off;
-        include /etc/nginx/fastcgi_params;
+    location ~ [^/]\.php(/|$) {
+        fastcgi_split_path_info ^(.+?\.php)(/.*)$;
+        if (!-f $document_root$fastcgi_script_name) {
+            return 404;
+        }
 
-        # Filter out arbitrary code execution
-        location ~ \..*/.*\.php$ {return 404;}
-
-        fastcgi_pass unix:/tmp/php.socket;
-        fastcgi_index index.pl;
+        fastcgi_pass php5-fpm-socket;
+        fastcgi_index index.php;
+        include fastcgi_params;
     }
 
     # This will deny access to any hidden file (beginning with a .period)
