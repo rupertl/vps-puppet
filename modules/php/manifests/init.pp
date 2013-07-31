@@ -8,8 +8,8 @@ class php {
     ensure => installed,
   }
 
-  $php_extras = ["php5-cli", "php5-curl", "php5-gd", "php5-mcrypt",
-                 "php5-pgsql", "php5-suhosin" ]
+  $php_extras = ["php-apc", "php5-cli", "php5-curl", "php5-gd", "php5-mcrypt",
+                 "php5-pgsql", "php5-suhosin", "php5-intl" ]
   package { $php_extras:
     ensure => "installed"
   }
@@ -20,6 +20,11 @@ class php {
     mode => '644',
     require => Package['php5-fpm'],
     notify => Service['php5-fpm'],
+  }
+
+  file { "$config_dir/fpm/php-fpm.conf":
+    ensure => present,
+    source => 'puppet:///modules/php/php-fpm.conf',
   }
 
   file { "$config_dir/fpm/pool.d/www.conf":
