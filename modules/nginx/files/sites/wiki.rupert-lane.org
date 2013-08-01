@@ -1,0 +1,79 @@
+# wiki site config - managed by puppet
+
+server {
+    listen 443 ssl;
+    access_log /var/log/nginx/wiki-access.log;
+    root /data/websites/prod/wiki.rupert-lane.org/pw;
+    index index.php;
+    server_name wiki.rupert-lane.org;
+    autoindex off;
+
+    ssl on;
+    ssl_certificate /data/websites/prod/wiki.rupert-lane.org/certs/server.crt;
+    ssl_certificate_key /data/websites/prod/wiki.rupert-lane.org/certs/server.key;
+    ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers ECDHE-RSA-AES256-SHA384:AES256-SHA256:RC4:HIGH:!MD5:!aNULL:!EDH:!AESGCM;
+    ssl_prefer_server_ciphers on;
+
+    # Exclude all access from the cache directory
+    location ^~ /cache/ { deny all; }
+
+    # Prevent access to any files starting with a dot, like .htaccess
+    # or text editor temp files
+    location ~ /\. { deny all; }
+
+    # Prevent access to any files starting with a $ (usually temp files)
+    location ~ ~$ { deny all; }
+
+    # Keep images and CSS around in browser cache for as long as possible,
+    # to cut down on server load
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+        try_files $uri /index.php;
+        expires max;
+    }
+
+    # Mark all of these directories as "internal", which means that they cannot
+    # be explicitly accessed by clients. However, the web server can still use
+    # and serve the files inside of them. This keeps people from poking around
+    # in the wiki's internals.
+    location ^~ /bin/ { internal; }
+    location ^~ /docs/ { internal; }
+    location ^~ /extensions/ { internal; }
+    location ^~ /includes/ { internal; }
+    location ^~ /maintenance/ { internal; }
+    location ^~ /mw-config/ { internal; }
+    location ^~ /resources/ { internal; }
+    location ^~ /serialized/ { internal; }
+    location ^~ /tests/ { internal; }
+
+    # Force potentially-malicious files in the /images directory to be served
+    # with a text/plain mime type, to prevent them from being executed by
+    # the PHP handler
+    location ~* ^/images/.*.(html|htm|shtml|php)$ {
+        types { }
+        default_type text/plain;
+    }
+
+    # Redirect all requests for unknown URLs out of images and back to the
+    # root index.php file
+    location ^~ /images/ {
+        try_files $uri /index.php;
+    }
+
+    location / {
+        index index.php5;
+        rewrite ^/([^?]*)(?:\?(.*))? /index.php5?title=$1&$2 last;
+    }
+
+    location ~ [^/]\.php5*(/|$) {
+        fastcgi_split_path_info ^(.+?\.php5*)(/.*)$;
+        if (!-f $document_root$fastcgi_script_name) {
+            return 404;
+        }
+        include fastcgi_params;
+        fastcgi_pass php5-fpm-socket;
+        fastcgi_param HTTPS on;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_intercept_errors on;
+    }
+}

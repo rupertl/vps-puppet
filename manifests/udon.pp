@@ -13,6 +13,7 @@ include nginx
 nginx::site {'www.rupert-lane.org':}
 nginx::site {'qxnp.rupert-lane.org':}
 nginx::site {'ttrss.rupert-lane.org':}
+nginx::site {'wiki.rupert-lane.org':}
 
 class {'postfix':
   server_type  => 'mailhost'
