@@ -12,4 +12,5 @@ abuse: root
 noc: root
 security: root
 root: rupert
+postgres: rupert
 
