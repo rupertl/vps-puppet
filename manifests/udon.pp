@@ -22,6 +22,7 @@ class {'postfix':
 include logwatch
 include radicale
 include pup_check
+include backups
 
 
 
