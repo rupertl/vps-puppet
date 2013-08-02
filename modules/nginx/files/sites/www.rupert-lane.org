@@ -2,6 +2,12 @@
 
 # Main public facing website www.rupert-lane.org
 server {
+   listen 80;
+   listen 443 ssl;
+
+   ssl_certificate /data/websites/prod/wiki.rupert-lane.org/certs/server.crt;
+   ssl_certificate_key /data/websites/prod/wiki.rupert-lane.org/certs/server.key;
+
    access_log /var/log/nginx/www-access.log;
    root /data/websites/prod/www.rupert-lane.org;
    index index.html index.htm;
