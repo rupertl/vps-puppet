@@ -60,6 +60,11 @@ server {
         try_files $uri /index.php;
     }
 
+    # Serve robots.txt
+    location /robots.txt {
+        alias /data/websites/prod/wiki.rupert-lane.org/robots.txt;
+    }
+
     location / {
         index index.php5;
         rewrite ^/([^?]*)(?:\?(.*))? /index.php5?title=$1&$2 last;
