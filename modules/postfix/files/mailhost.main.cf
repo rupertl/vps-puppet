@@ -15,7 +15,8 @@ inet_interfaces = all
 # HELO restrictions
 # Require a HELO. Permit anything from my domains but reject non FQDN
 # domians or invalid hostnames externally. Delay rejecting until all
-# details have been logged.
+# details have been logged. Discard requests for delivery status
+# notifications.
 smtpd_delay_reject = yes
 smtpd_helo_required = yes
 smtpd_helo_restrictions =
@@ -24,6 +25,7 @@ smtpd_helo_restrictions =
     reject_non_fqdn_helo_hostname,
     reject_invalid_helo_hostname,
     permit
+smtpd_discard_ehlo_keywords = silent-discard, dsn
 
 # Sender restrictions
 # Allow my networks but deny anything with a non FQDN or missing
