@@ -6,6 +6,10 @@ server {
 
     server_name try-mts.com www.try-mts.com;
 
+    location /google07ddf4de5150aff6.html {
+        alias /data/websites/prod/try-mts.com/google07ddf4de5150aff6.html;
+    }
+
     # Reverse proxy everything to the node instance
     location / {
         proxy_set_header   X-Real-IP $remote_addr;
