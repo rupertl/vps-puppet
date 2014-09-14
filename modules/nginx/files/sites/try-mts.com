@@ -10,6 +10,12 @@ server {
         alias /data/websites/prod/try-mts.com/google07ddf4de5150aff6.html;
     }
 
+    # Serve static files
+    location /files/ {
+        alias /data/websites/prod/try-mts.com/files/;
+        autoindex off;
+    }
+
     # Reverse proxy everything to the node instance
     location / {
         proxy_set_header   X-Real-IP $remote_addr;
