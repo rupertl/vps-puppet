@@ -1,0 +1,6 @@
+# /etc/openntpd/ntpd.conf - Config for the openntpd time sync daemon.
+# This config is managed by puppet.
+
+<% $ntpd::servers.each |$server| { -%>
+server <%= $server %>
+<% } -%>

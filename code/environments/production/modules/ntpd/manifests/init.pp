@@ -2,9 +2,9 @@
 # We use openntpd across Ubuntu and Debian
 # This module only includes configs which are not stock.
 
-class ntpd {
+class ntpd(Array $servers) {
   $config_dir = "/etc/openntpd"
-  
+
   package { 'openntpd':
     ensure => installed,
   }
@@ -18,10 +18,10 @@ class ntpd {
   }    
 
   file { "$config_dir/ntpd.conf":
-    ensure => present,
-    source => 'puppet:///modules/ntpd/ntpd.conf',
-  }
-
+    ensure  => file,
+    content => epp('ntpd/ntpd.conf.epp'),
+  }  
+  
   service { 'openntpd':
     ensure => running,
     enable => true,

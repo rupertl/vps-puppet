@@ -39,10 +39,12 @@ Log out and back in to pick up the group change then run the below to install pu
 $ sudo sh -c 'cd /tmp && wget http://apt.puppetlabs.com/puppetlabs-release-pc1-jessie.deb && dpkg -i puppetlabs-release-pc1-jessie.deb && apt-get update && apt-get install puppet-agent'
 ```
 
-Clone this git repo to `/etc/puppet` and then run
+## Use
+
+Clone this git repo to `/etc/puppetlabs` and then run
 
 ```
-$ puppet apply /etc/puppet/manifests/`hostname`.pp
+$ puppet apply /etc/puppetlabs/code/environments/production/manifests/`hostname`.pp
 ```
 
 ## License

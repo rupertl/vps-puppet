@@ -1,0 +1,15 @@
+# hiera.yaml - configuration for hiera lookup for puppet
+---
+# Format for hiera files
+:backends:
+  - yaml
+
+# Where to find hiera data
+:yaml:
+  :datadir: "/etc/puppetlabs/code/environments/production/hieradata"
+
+# How to find hiera data
+# Try the file named after the machine under nodes or the common file
+:hierarchy:
+  - "nodes/%{::trusted.certname}"
+  - common
