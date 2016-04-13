@@ -4,7 +4,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 which etckeeper > /dev/null 2>&1 || exit 0
 
-etckeeper commit "saving uncommitted changes in /etc prior to puppet catalog run"
+etckeeper commit "Saving uncommitted changes before puppet run"
 
 # Failure of etckeeper should not be fatal.
 exit 0

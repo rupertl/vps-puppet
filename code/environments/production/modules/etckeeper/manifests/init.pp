@@ -1,9 +1,12 @@
-# This class manages the package and files for etckeeper. It will init
-# the repo on first run. The class assumes stock Debian/Ubuntu and
-# that git was installed as part of base setup.
+# This class manages the package and files for etckeeper, which keeps
+# the contents of /etc in a local git repo for easy analysis of
+# changes. It will init the repo on first run.
 
 class etckeeper {
   $config_dir = "/etc/etckeeper"
+
+  # Ensures git is installed
+  require essential
 
   package { 'etckeeper':
     ensure => installed,
@@ -17,8 +20,8 @@ class etckeeper {
   }
 
   file { "$config_dir/etckeeper.conf":
-    ensure => present,
-    source => 'puppet:///modules/etckeeper/etckeeper.conf',
+    ensure => file,
+    content => epp('etckeeper/etckeeper.conf.epp'),
   }
 
   exec { 'etckeeper-init':

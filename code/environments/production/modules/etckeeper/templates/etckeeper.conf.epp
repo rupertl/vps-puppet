@@ -1,22 +1,11 @@
-# Managed by puppet
+# /etc/etckeeper.conf - configures etckeeper source control for /etc
+# This file is managed by puppet
 
 # The VCS to use.
-#VCS="hg"
 VCS="git"
-#VCS="bzr"
-#VCS="darcs"
 
 # Options passed to git commit when run by etckeeper.
 GIT_COMMIT_OPTIONS=""
-
-# Options passed to hg commit when run by etckeeper.
-HG_COMMIT_OPTIONS=""
-
-# Options passed to bzr commit when run by etckeeper.
-BZR_COMMIT_OPTIONS=""
-
-# Options passed to darcs record when run by etckeeper.
-DARCS_COMMIT_OPTIONS="-a"
 
 # Uncomment to avoid etckeeper committing existing changes
 # to /etc automatically once per day.

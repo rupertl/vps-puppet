@@ -6,21 +6,24 @@ I'm using Debian Jessie and puppet 4.4 at present.
 
 The configuration implements installation of the software below as modules:
 
+* essential: install general utility packages
+* etckeeper: store /etc in git
+* ntpd: synchronise system time
+* ssh_public: install ssh authorized keys
+* sudo: controlled root access
+
+These need to be updated
+
 * apticron: handle regular system package updates
 * backups: use duplicity to backup servers
-* etckeeper: store /etc in git
-* essential: install general utility packages
 * logrotate: rotate system log files
 * logwatch: watch for changes to system logs
 * nginx: web server
 * nodejs: programming language
-* ntpd: synchronise system time
 * php: programming language
 * postfix: email server
 * pup_check: custom script to check puppet config
 * radicale: calendar server
-* ssh_public: install ssh authorized keys
-* sudo: controlled root access
 
 ## Manifests
 

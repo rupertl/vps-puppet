@@ -3,6 +3,7 @@
 # What classses to install
 classes:
   - essential
+  - etckeeper
   - ntpd
   - ssh_public
   - sudo
