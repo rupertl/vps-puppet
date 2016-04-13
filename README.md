@@ -19,6 +19,7 @@ The configuration implements installation of the software below as modules:
 * postfix: email server
 * pup_check: custom script to check puppet config
 * radicale: calendar server
+* ssh_public: install ssh authorized keys
 * sudo: controlled root access
 
 ## Manifests

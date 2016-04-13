@@ -1,21 +1,39 @@
 # common.yaml - hiera definitions to be applied to all nodes
 ---
+# What classses to install
 classes:
   - essential
   - ntpd
+  - ssh_public
   - sudo
 
+# Username for primary user
+user: rupert
+
+# Essential packages to install
 essential::packages:
   - emacs-nox
   - git
   - make
   - screen
 
+# NTP servers
 ntpd::servers:
   - 0.debian.pool.ntp.org
   - 1.debian.pool.ntp.org
   - 2.debian.pool.ntp.org
   - 3.debian.pool.ntp.org
 
+# What user to install ssh authorized_keys for
+ssh_public::user: "%{hiera('user')}"
+
+# Hash of authorized keys to install
+ssh_public::keys:
+  Rupert Lane <rupert@rupert-lane.org>:
+    type: ssh-rsa
+    key: "AAAAB3NzaC1yc2EAAAADAQABAAABAQDhPbRyb2wq3ycZSXBmtBcjyu4LOodNII4kSDsvdHgRvk96K6W8u/T8+ewvuL8Yjezm4YPwuqWVyUOk5ngfs+SuN3vd0NVZDan9DTVDMnJZJUw5kBXzWSWLckBJWvDV5PB13nYPoQmf3r/CBXaDjmrGSnVwiXl4ljuhi3qTGAxC2oMHAGRZ3PIYaO40GpcpxA4UklZusWYHTzRtTVcmZv8hJzp5ZrpooYVoFHfjTd9iUYqUUcQSAHXkj1HfDaXJq85rYSl0po1c4n+HQQbCU8oFYxrB7Wk/vsAVYlfTOKrQ2Bu393NKiS3khITrXzdWJW9iV8laGV0dRnhRJHE4hUpD"
+
+# User to grant sudo access to
 sudo::users:
-  - rupert
+  - "%{hiera('user')}"
+
