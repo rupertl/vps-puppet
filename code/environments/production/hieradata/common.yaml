@@ -1,8 +1,15 @@
 # common.yaml - hiera definitions to be applied to all nodes
 ---
 classes:
+  - essential
   - ntpd
   - sudo
+
+essential::packages:
+  - emacs-nox
+  - git
+  - make
+  - screen
 
 ntpd::servers:
   - 0.debian.pool.ntp.org
