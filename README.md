@@ -20,7 +20,6 @@ These need to be updated
 
 * backups: use duplicity to backup servers
 * logrotate: rotate system log files
-* logwatch: watch for changes to system logs
 * nginx: web server
 * nodejs: programming language
 * php: programming language
