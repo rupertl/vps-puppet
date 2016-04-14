@@ -1,0 +1,73 @@
+# /etc/postfix/main.cf - Postfix main config file for satellites.
+# Managed by puppet
+
+# The internet hostname of this mail system.
+myhostname = <%= $::fqdn %>
+
+# The domain name that locally-posted mail appears to come from, and
+# that locally posted mail is delivered to
+myorigin = /etc/mailname
+
+# The mydestination parameter specifies the list of domains that this
+# machine considers itself the final destination for.
+mydestination = <%= $::hostname %>, <%= $::fqdn %>,
+                localhost.localdomain, localhost
+
+# Trusted networks that mail can come from
+mynetworks = <%= $::ipaddress %> 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+
+# For incoming SMTP, only allow messages from my networks or
+# authenticated connections, and reject anything else
+smtpd_relay_restrictions = permit_mynetworks,
+                           permit_sasl_authenticated,
+                           reject_unauth_destination
+
+# Only listen on loopback as we are a satellite
+inet_interfaces = loopback-only
+
+# Where to get email aliases from (alias_maps allows external databases also)
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+
+# Relay all email to a central host using the submission service
+# [] means no MX lookup for the address
+relayhost = [<%= $postfix::relayhost %>]:submission
+
+# As all email is going to the relayhost, and we have set this up with
+# TLS, only allow TLS delivery.
+smtp_tls_security_level = encrypt
+
+# Allow plain text login over TLS
+smtp_sasl_security_options = noanonymous
+
+# Use SASL auth to connect to the relayhost
+smtp_sasl_auth_enable=yes
+
+# Lookup table for SASL password to connect to relayhost
+smtp_sasl_password_maps=hash:/etc/postfix/sasl_passwd
+
+# How to transform local address into internet address for relayed email.
+smtp_generic_maps = hash:/etc/postfix/generic
+
+# Allow email addresses of the form user+extension@host
+recipient_delimiter = +
+
+# Banner for incoming SMTP connections
+smtpd_banner = $myhostname ESMTP $mail_name (Debian/GNU)
+
+# The biff mail notification service
+# I think I last used this in 1993
+biff = no
+
+# Appending .domain is the MUA's job.
+append_dot_mydomain = no
+
+# Directory for Postfix readme files
+readme_directory = no
+
+# TLS parameters
+smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+smtpd_use_tls=yes
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache

@@ -1,0 +1,2 @@
+@<%= $::fqdn %> <%= $postfix::rewrite_from %>
+@localhost <%= $postfix::rewrite_from %>

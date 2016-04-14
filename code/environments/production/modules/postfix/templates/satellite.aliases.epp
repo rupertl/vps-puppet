@@ -1,4 +1,5 @@
-# Email aliases file for satellites. Managed by puppet.
+# /etc/aliases - Postfix email aliases file
+# Managed by puppet.
 
 mailer-daemon: postmaster
 postmaster: root
@@ -12,5 +13,5 @@ ftp: root
 abuse: root
 noc: root
 security: root
-root: rupert@rupert-lane.org
-rupert: rupert@rupert-lane.org
+root: <%= $postfix::primary_user %>
+<%= $postfix::primary_user %>: <%= $postfix::rewrite_from %>
