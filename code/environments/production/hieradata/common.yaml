@@ -2,6 +2,7 @@
 ---
 # What classses to install
 classes:
+  - apticron
   - essential
   - etckeeper
   - ntpd

@@ -8,6 +8,7 @@ I'm using Debian Jessie and Puppet 4.4 at present. Some Puppet 4 features such a
 
 The configuration implements installation of the software below as modules:
 
+* apticron: handle regular system package updates
 * essential: install general utility packages
 * etckeeper: store /etc in git
 * ntpd: synchronise system time
@@ -17,7 +18,6 @@ The configuration implements installation of the software below as modules:
 
 These need to be updated
 
-* apticron: handle regular system package updates
 * backups: use duplicity to backup servers
 * logrotate: rotate system log files
 * logwatch: watch for changes to system logs
