@@ -34,17 +34,13 @@ Each VPS has its own manifest of what to install.
 
 Do a basic install of Debian, selecting ssh-server as the only extra task.
 
-Once logged in, update the system and set up sudo and git:
+Run the bootstrap script to install Puppet PC1 and clone this repo.
 
 ```
-$ su -c 'apt-get update; apt-get upgrade; apt-get install git sudo; adduser rupert sudo'
+wget -qO - https://raw.githubusercontent.com/rupertl/vps-puppet/puppet4/scripts/bootstrap.sh | bash
 ```
 
-Log out and back in to pick up the group change then run the below to install puppet 4.4
-
-```
-$ sudo sh -c 'cd /tmp && wget http://apt.puppetlabs.com/puppetlabs-release-pc1-jessie.deb && dpkg -i puppetlabs-release-pc1-jessie.deb && apt-get update && apt-get install puppet-agent'
-```
+Then copy the EYAML keys to `/etc/puppetlabs/secure/eyaml/keys/`. Obviously if you are not me you won't have these, so you'll need to regenerate any encrypted sections of Hiera files.
 
 ## Use
 
