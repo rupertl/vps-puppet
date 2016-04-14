@@ -13,6 +13,7 @@ The configuration implements installation of the software below as modules:
 * etckeeper: store /etc in git
 * ntpd: synchronise system time
 * postfix: email server
+* sshd: ssh server
 * ssh_public: install ssh authorized keys
 * sudo: controlled root access
 
