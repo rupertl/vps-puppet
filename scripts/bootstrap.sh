@@ -32,6 +32,10 @@ mv /etc/puppetlabs /tmp/old-etc-puppetlabs
 echo "## Cloning the vps-puppet repo"
 git clone https://github.com/rupertl/vps-puppet.git /etc/puppetlabs
 
+echo "## Installing the EYAML gem"
+/opt/puppetlabs/puppet/bin/gem install hiera-eyaml
+ln -s /opt/puppetlabs/puppet/bin/eyaml /opt/puppetlabs/bin/
+
 echo "## All done."
 echo "## Remember to install EYAML keys to"
 echo "## /etc/puppetlabs/secure/eyaml/keys/"
