@@ -21,6 +21,18 @@ class sshd() {
     content => epp('sshd/sshd_config.epp'),
   }
 
+  Exec {
+    require => Package['openssh-server'],
+    path    => '/usr/sbin:/usr/bin:/sbin:/bin',
+    notify => Service['ssh'],
+  }
+
+  # Generate the ed25519 key if not present
+  exec {"generate ed25519 key":
+    creates => '/etc/ssh/ssh_host_ed25519_key',
+    command => 'ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ""',
+  }
+
   service { 'ssh':
     ensure => running,
     enable => true,
