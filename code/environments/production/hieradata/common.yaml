@@ -19,9 +19,11 @@ email: rupert@rupert-lane.org
 
 # Essential packages to install
 essential::packages:
+  - curl
   - emacs-nox
   - git
   - make
+  - openssl
   - screen
 
 # NTP servers
