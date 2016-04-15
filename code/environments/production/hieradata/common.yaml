@@ -5,6 +5,7 @@ classes:
   - apticron
   - essential
   - etckeeper
+  - letsencrypt
   - ntpd
   - postfix
   - sshd

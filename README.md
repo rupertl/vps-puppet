@@ -11,6 +11,7 @@ The configuration implements installation of the software below as modules:
 * apticron: handle regular system package updates
 * essential: install general utility packages
 * etckeeper: store /etc in git
+* letsencrypt: generate SSL certificates
 * ntpd: synchronise system time
 * postfix: email server
 * sshd: ssh server
