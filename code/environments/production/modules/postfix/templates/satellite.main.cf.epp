@@ -38,7 +38,8 @@ relayhost = [<%= $postfix::relayhost %>]:submission
 smtp_tls_security_level = encrypt
 
 # Allow plain text login over TLS
-smtp_sasl_security_options = noanonymous
+smtp_sasl_security_options = noanonymous, noplaintext
+smtp_sasl_tls_security_options = noanonymous
 
 # Use SASL auth to connect to the relayhost
 smtp_sasl_auth_enable=yes

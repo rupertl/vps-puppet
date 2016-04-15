@@ -86,6 +86,12 @@ class postfix ($server_type, $primary_user, $rewrite_from, $relayhost, $relayuse
 
   # Configure SMTP forwarding to mailhost for satellites
   if ($server_type == "satellite") {
+    # Needed for TLS auth for the satellite SMTP client
+    package { 'libsasl2-modules':
+      ensure => installed,
+      notify => Service['postfix'],
+    }
+
     file { "$config_dir/sasl_passwd":
       ensure  => file,
       mode => '600',
