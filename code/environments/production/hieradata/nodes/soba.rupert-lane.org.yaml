@@ -1,0 +1,6 @@
+# soba.rupert-lane.org.yaml - hiera definitions for node soba
+---
+# What classses to install
+classes:
+  - letsencrypt
+
