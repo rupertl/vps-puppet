@@ -32,6 +32,16 @@ class nginx(Array $sites) {
     ensure  => absent,
   }
 
+  # Generate better Diffie-Hellman parameters
+  $dhparams = '/etc/ssl/certs/dhparam.pem'
+  exec {"generate dhparams":
+    creates => $dhparams,
+    command => "openssl dhparam -out ${dhparams} 2048",
+    path    => '/usr/sbin:/usr/bin:/sbin:/bin',
+    require => Package['nginx'],
+    notify => Service['nginx'],
+  }
+
   # file { "$config_dir/conf.d/php-socket.conf":
   #   ensure  => file,
   #   content => epp("nginx/php-socket.conf.epp"),
