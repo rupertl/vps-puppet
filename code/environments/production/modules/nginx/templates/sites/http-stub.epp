@@ -1,18 +1,18 @@
-<%- | String $site | -%>
+<%- | String $website | -%>
 # nginx http site config
 # Managed by puppet
 
 # Redirect www to no-www
 server {
     listen      80;
-    server_name www.<%= $site %>;
-    return 301  $scheme://<%= $site %>$request_uri;
+    server_name www.<%= $website %>;
+    return 301  $scheme://<%= $website %>$request_uri;
 }
 
 # Main no-www
 server {
     listen      80;
-    server_name <%= $site %>;
+    server_name <%= $website %>;
 
     # Serve letsencrypt challenges
     location '/.well-known/acme-challenge' {

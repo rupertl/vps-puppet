@@ -53,7 +53,7 @@ class nginx(Array $sites) {
     # and redirects everything else to https
     file { "$http_available":
       ensure  => file,
-      content => epp("nginx/sites/http-stub.epp", {site => $website}),
+      content => epp("nginx/sites/http-stub.epp", {website => $website}),
     }
 
     # Make a symlink in sites-enabled
@@ -66,7 +66,7 @@ class nginx(Array $sites) {
     # Write the main https config
     file { "$https_available":
       ensure  => file,
-      content => epp("nginx/sites/${site}.epp", {site => $website}),
+      content => epp("nginx/sites/${website}.epp", {website => $website}),
     }
 
     # Don't enable it yet

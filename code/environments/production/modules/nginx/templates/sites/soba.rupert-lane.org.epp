@@ -1,28 +1,28 @@
-<%- | String $site | -%>
+<%- | String $website | -%>
 # soba.rupert-lane.org nginx site config
 # Managed by puppet
 
 # Redirect www to no-www
 server {
     listen      443;
-    server_name www.<%= $site %>;
+    server_name www.<%= $website %>;
 
     ssl                  on;
-    ssl_certificate      /srv/letsencrypt/certs/<%= $site %>/fullchain.pem;
-    ssl_certificate_key  /srv/letsencrypt/certs/<%= $site %>/privkey.pem;
+    ssl_certificate      /srv/letsencrypt/certs/<%= $website %>/fullchain.pem;
+    ssl_certificate_key  /srv/letsencrypt/certs/<%= $website %>/privkey.pem;
 
-    return 301 $scheme://<%= $site %>$request_uri;
+    return 301 $scheme://<%= $website %>$request_uri;
 }
 
 # Main no-www config
 server {
     listen       443;
-    server_name <%= $site %>;
+    server_name <%= $website %>;
     ssl                  on;
-    ssl_certificate      /srv/letsencrypt/certs/<%= $site %>/fullchain.pem;
-    ssl_certificate_key  /srv/letsencrypt/certs/<%= $site %>/privkey.pem;
+    ssl_certificate      /srv/letsencrypt/certs/<%= $website %>/fullchain.pem;
+    ssl_certificate_key  /srv/letsencrypt/certs/<%= $website %>/privkey.pem;
 
-    root /srv/www/<%= $site %>;
+    root /srv/www/<%= $website %>;
     index index.html index.htm;
 
     location / {
