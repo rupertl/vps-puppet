@@ -33,4 +33,15 @@ class letsencrypt() {
     ensure => directory,
     mode => '0755',
   }
+
+  # Create a cron job to renew any certs
+  cron { renew_letsencrypt_certs:
+    command     => "${script} --cron && /bin/systemctl reload nginx",
+    environment => "PATH=/usr/sbin:/usr/bin:/sbin:/bin",
+    user        => root,
+    hour        => 12,
+    minute      => 24,
+    weekday     => 6,
+    require     => File[$script],
+  }
 }

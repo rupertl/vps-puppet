@@ -6,6 +6,7 @@ class nginx(Array $sites) {
   require letsencrypt
 
   $config_dir = "/etc/nginx"
+  $le_domains = '/opt/letsencrypt/domains.txt'
 
   package { 'nginx':
     ensure => installed,
@@ -54,11 +55,18 @@ class nginx(Array $sites) {
 
   # Deploy each site
   $sites.each |Hash $site_hash| {
-    $website = $site_hash[website];
+    $website = $site_hash[website]
     $http_available = "${config_dir}/sites-available/http.${website}"
     $http_enabled = "${config_dir}/sites-enabled/http.${website}"
     $https_available = "${config_dir}/sites-available/https.${website}"
     $https_enabled = "${config_dir}/sites-enabled/https.${website}"
+
+    exec {"add to letsencrypt domains.txt":
+      path    => '/usr/sbin:/usr/bin:/sbin:/bin',
+      unless  => "grep -q ${website} ${le_domains}",
+      command => "sh -c 'echo ${website} ${site_hash[secondary]} >> ${le_domains}'",
+      require => Package['nginx'],
+    }
 
     # Write a basic http conf that serves up letsencrypt challenges
     # and redirects everything else to https
