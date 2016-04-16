@@ -1,13 +1,17 @@
-<%- | String $website | -%>
+<%- | String $website, Optional[String] $secondary = undef | -%>
 # nginx http site config
 # Managed by puppet
+# $website - primary name of website, eg example.com
+# $secondary - other name to redirect from, eg www.example.com
 
-# Redirect www to no-www
+<% unless $secondary =~ Undef { -%>
+# Redirect secondary to primary
 server {
     listen      80;
-    server_name www.<%= $website %>;
+    server_name <%= $secondary %>;
     return 301  $scheme://<%= $website %>$request_uri;
 }
+<% } -%>
 
 # Main no-www
 server {

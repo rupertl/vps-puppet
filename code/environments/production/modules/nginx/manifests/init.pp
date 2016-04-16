@@ -43,7 +43,8 @@ class nginx(Array $sites) {
   # }
 
   # Deploy each site
-  $sites.each |String $website| {
+  $sites.each |Hash $site_hash| {
+    $website = $site_hash[website];
     $http_available = "${config_dir}/sites-available/http.${website}"
     $http_enabled = "${config_dir}/sites-enabled/http.${website}"
     $https_available = "${config_dir}/sites-available/https.${website}"
@@ -53,7 +54,7 @@ class nginx(Array $sites) {
     # and redirects everything else to https
     file { "$http_available":
       ensure  => file,
-      content => epp("nginx/sites/http-stub.epp", {website => $website}),
+      content => epp("nginx/sites/http-stub.epp", $site_hash),
     }
 
     # Make a symlink in sites-enabled
@@ -66,7 +67,7 @@ class nginx(Array $sites) {
     # Write the main https config
     file { "$https_available":
       ensure  => file,
-      content => epp("nginx/sites/${website}.epp", {website => $website}),
+      content => epp("nginx/sites/${website}.epp", $site_hash),
     }
 
     # Don't enable it yet

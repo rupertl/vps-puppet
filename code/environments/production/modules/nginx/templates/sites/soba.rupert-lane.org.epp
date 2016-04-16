@@ -1,11 +1,14 @@
-<%- | String $website | -%>
-# soba.rupert-lane.org nginx site config
+<%- | String $website, Optional[String] $secondary = undef | -%>
+# nginx http site config for soba.rupert-lane.org
 # Managed by puppet
+# $website - primary name of website, eg example.com
+# $secondary - other name to redirect from, eg www.example.com
 
-# Redirect www to no-www
+<% unless $secondary =~ Undef { -%>
+# Redirect secondary to primary
 server {
     listen      443;
-    server_name www.<%= $website %>;
+    server_name <%= $secondary %>;
 
     ssl                  on;
     ssl_certificate      /opt/letsencrypt/certs/<%= $website %>/fullchain.pem;
@@ -13,8 +16,9 @@ server {
 
     return 301 $scheme://<%= $website %>$request_uri;
 }
+<% } -%>
 
-# Main no-www config
+# Main config
 server {
     listen       443;
     server_name <%= $website %>;
