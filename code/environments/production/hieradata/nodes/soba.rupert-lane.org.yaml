@@ -6,5 +6,5 @@ classes:
   - nginx
 
 # Sites to serve via nginx
-nginx:sites:
+nginx::sites:
   - soba.rupert-lane.org

@@ -24,6 +24,14 @@ class nginx(Array $sites) {
     content => epp("nginx/nginx.conf.epp"),
   }
 
+  # Remove default configs
+  file { "$config_dir/sites-available/default":
+    ensure  => absent,
+  }
+  file { "$config_dir/sites-enabled/default":
+    ensure  => absent,
+  }
+
   # file { "$config_dir/conf.d/php-socket.conf":
   #   ensure  => file,
   #   content => epp("nginx/php-socket.conf.epp"),
@@ -35,17 +43,17 @@ class nginx(Array $sites) {
   # }
 
   # Deploy each site
-  $sites.each |String $site| {
-    $http_available = "${config_dir}/sites-available/http.${site}"
-    $http_enabled = "${config_dir}/sites-enabled/http.${site}"
-    $https_available = "${config_dir}/sites-available/https.${site}"
-    $https_enabled = "${config_dir}/sites-enabled/https.${site}"
+  $sites.each |String $website| {
+    $http_available = "${config_dir}/sites-available/http.${website}"
+    $http_enabled = "${config_dir}/sites-enabled/http.${website}"
+    $https_available = "${config_dir}/sites-available/https.${website}"
+    $https_enabled = "${config_dir}/sites-enabled/https.${website}"
 
     # Write a basic http conf that serves up letsencrypt challenges
     # and redirects everything else to https
     file { "$http_available":
       ensure  => file,
-      content => epp("nginx/sites/http-stub.epp", {site => $site}),
+      content => epp("nginx/sites/http-stub.epp", {site => $website}),
     }
 
     # Make a symlink in sites-enabled
@@ -58,7 +66,7 @@ class nginx(Array $sites) {
     # Write the main https config
     file { "$https_available":
       ensure  => file,
-      content => epp("nginx/sites/${site}.epp"),
+      content => epp("nginx/sites/${site}.epp", {site => $website}),
     }
 
     # Don't enable it yet
