@@ -3,4 +3,8 @@
 # What classses to install
 classes:
   - letsencrypt
+  - nginx
 
+# Sites to serve via nginx
+nginx:sites:
+  - soba.rupert-lane.org

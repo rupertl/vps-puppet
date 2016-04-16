@@ -1,0 +1,31 @@
+<%- | String $site | -%>
+# soba.rupert-lane.org nginx site config
+# Managed by puppet
+
+# Redirect www to no-www
+server {
+    listen      443;
+    server_name www.<%= $site %>;
+
+    ssl                  on;
+    ssl_certificate      /srv/letsencrypt/certs/<%= $site %>/fullchain.pem;
+    ssl_certificate_key  /srv/letsencrypt/certs/<%= $site %>/privkey.pem;
+
+    return 301 $scheme://<%= $site %>$request_uri;
+}
+
+# Main no-www config
+server {
+    listen       443;
+    server_name <%= $site %>;
+    ssl                  on;
+    ssl_certificate      /srv/letsencrypt/certs/<%= $site %>/fullchain.pem;
+    ssl_certificate_key  /srv/letsencrypt/certs/<%= $site %>/privkey.pem;
+
+    root /srv/www/<%= $site %>;
+    index index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}

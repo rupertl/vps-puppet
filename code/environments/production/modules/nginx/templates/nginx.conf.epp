@@ -1,0 +1,46 @@
+# /etc/nginx.conf - nginx main configuration file
+# Managed by puppet
+
+user www-data;
+worker_processes 4;
+pid /run/nginx.pid;
+
+events {
+    worker_connections 768;
+}
+
+http {
+    # Basic settings
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 65;
+    types_hash_max_size 2048;
+
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    # SSL settings
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
+    ssl_prefer_server_ciphers on;
+
+    # Logging settings
+    # Send to /dev/log so journald can maange
+    error_log syslog:server=unix:/dev/log;
+    access_log syslog:server=unix:/dev/log;
+
+    # Gzip settings
+    gzip on;
+    gzip_disable "msie6";
+
+    # Deny access to any host other than those enabled below
+    # This will reject any access by IP address
+    server {
+        server_name  _;  # default
+        return 404;
+    }
+
+    # Virtual host configs
+    include /etc/nginx/conf.d/*.conf;
+    include /etc/nginx/sites-enabled/*;
+}

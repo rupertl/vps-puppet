@@ -1,0 +1,27 @@
+<%- | String $site | -%>
+# nginx http site config
+# Managed by puppet
+
+# Redirect www to no-www
+server {
+    listen      80;
+    server_name www.<%= $site %>;
+    return 301  $scheme://<%= $site %>$request_uri;
+}
+
+# Main no-www
+server {
+    listen      80;
+    server_name <%= $site %>;
+
+    # Serve letsencrypt challenges
+    location '/.well-known/acme-challenge' {
+        default_type "text/plain";
+        alias /srv/letsencrypt/.acme-challenges;
+    }
+
+    # Redirect everything else to https
+    location / {
+        return 301 https://$server_name$request_uri;
+    }
+}
