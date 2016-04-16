@@ -8,8 +8,8 @@ server {
     server_name www.<%= $website %>;
 
     ssl                  on;
-    ssl_certificate      /srv/letsencrypt/certs/<%= $website %>/fullchain.pem;
-    ssl_certificate_key  /srv/letsencrypt/certs/<%= $website %>/privkey.pem;
+    ssl_certificate      /opt/letsencrypt/certs/<%= $website %>/fullchain.pem;
+    ssl_certificate_key  /opt/letsencrypt/certs/<%= $website %>/privkey.pem;
 
     return 301 $scheme://<%= $website %>$request_uri;
 }
@@ -19,8 +19,8 @@ server {
     listen       443;
     server_name <%= $website %>;
     ssl                  on;
-    ssl_certificate      /srv/letsencrypt/certs/<%= $website %>/fullchain.pem;
-    ssl_certificate_key  /srv/letsencrypt/certs/<%= $website %>/privkey.pem;
+    ssl_certificate      /opt/letsencrypt/certs/<%= $website %>/fullchain.pem;
+    ssl_certificate_key  /opt/letsencrypt/certs/<%= $website %>/privkey.pem;
 
     root /srv/www/<%= $website %>;
     index index.html index.htm;
