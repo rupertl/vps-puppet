@@ -1,25 +1,40 @@
-# nginx site config - managed by puppet
+<%- | String $website, Optional[String] $secondary = undef | -%>
+# nginx http site config for www.rupert-lane.org
+# Managed by puppet
+# $website - primary name of website, eg example.com
+# $secondary - other name to redirect from, eg www.example.com
 
-# Main public facing website www.rupert-lane.org
+<% unless $secondary =~ Undef { -%>
+# Redirect secondary to primary
 server {
-   listen 80;
-   listen 443 ssl;
+    listen      443;
+    server_name <%= $secondary %>;
 
-   ssl_certificate /data/websites/prod/wiki.rupert-lane.org/certs/server.crt;
-   ssl_certificate_key /data/websites/prod/wiki.rupert-lane.org/certs/server.key;
+    ssl                  on;
+    ssl_certificate      /opt/letsencrypt/certs/<%= $website %>/fullchain.pem;
+    ssl_certificate_key  /opt/letsencrypt/certs/<%= $website %>/privkey.pem;
 
-   access_log /var/log/nginx/www-access.log;
-   root /data/websites/prod/www.rupert-lane.org;
-   index index.html index.htm;
+    return 301 $scheme://<%= $website %>$request_uri;
+}
+<% } -%>
 
-   server_name www.rupert-lane.org rupert-lane.org localhost;
+# Main config
+server {
+    listen       443;
+    server_name <%= $website %>;
+    ssl                  on;
+    ssl_certificate      /opt/letsencrypt/certs/<%= $website %>/fullchain.pem;
+    ssl_certificate_key  /opt/letsencrypt/certs/<%= $website %>/privkey.pem;
 
-   location / {
-       try_files $uri $uri/ =404;
-   }
+    root /srv/www/<%= $website %>;
+    index index.html index.htm;
 
-   # Serve up a directory listing for the old releases folder
-   location /inform-mode/releases/ {
-       autoindex on;
-   }
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # Serve up a directory listing for the old releases folder
+    location /inform-mode/releases/ {
+        autoindex on;
+    }
 }
