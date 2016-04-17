@@ -12,6 +12,7 @@ The configuration implements installation of the software below as modules:
 * essential: install general utility packages
 * etckeeper: store /etc in git
 * letsencrypt: generate SSL certificates
+* nginx: web server
 * ntpd: synchronise system time
 * postfix: email server
 * sshd: ssh server
@@ -21,16 +22,10 @@ The configuration implements installation of the software below as modules:
 These need to be updated
 
 * backups: use duplicity to backup servers
-* nginx: web server
 * nodejs: programming language
 * php: programming language
 * postfix: email server [for mailhosts]
 * pup_check: custom script to check puppet config
-* radicale: calendar server
-
-## Manifests
-
-Each VPS has its own manifest of what to install.
 
 ## Bootstrap
 
@@ -42,14 +37,14 @@ Run the bootstrap script to install Puppet PC1 and clone this repo.
 wget -qO - https://raw.githubusercontent.com/rupertl/vps-puppet/puppet4/scripts/bootstrap.sh | bash
 ```
 
-Then copy the EYAML keys to `/etc/puppetlabs/secure/eyaml/keys/`. Obviously if you are not me you won't have these, so you'll need to regenerate any encrypted sections of Hiera files.
+This will also install the [encrypted YAML](https://github.com/TomPoulton/hiera-eyaml) gem. 
+
+Finally,  copy the EYAML keys to `/etc/puppetlabs/secure/eyaml/keys/`. Obviously if you are not me you won't have these, so you'll need to regenerate any encrypted sections of Hiera files.
 
 ## Use
 
-Clone this git repo to `/etc/puppetlabs` and then run
-
 ```
-$ puppet apply /etc/puppetlabs/code/environments/production/manifests/`hostname`.pp
+$ puppet apply /etc/puppetlabs/code/environments/production/manifests/site.pp
 ```
 
 ## License
