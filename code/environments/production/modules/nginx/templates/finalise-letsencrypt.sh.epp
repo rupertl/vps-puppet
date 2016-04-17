@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# finalise-letsencrypt.sh - complete letsencrypt registration
+
+# The puppet module for nginx will set up a http site serving
+# letsencrypt challenges but will not enable the https site yet, as we
+# don't have certs. Call this script to generate the certs, enable the
+# https site and reload nginx. I can't see an easy way to do this in
+# puppet as the nginx server has to be started twice with different
+# configs.
+
+export PATH=/usr/sbin:/usr/bin:/sbin:/bin
+
+echo "# Generating certs"
+/opt/letsencrypt/letsencrypt.sh --cron
+
+echo "# Enabling https sites"
+for dom in `awk '{print $1}' < /opt/letsencrypt/domains.txt`
+do
+    ln -s /etc/nginx/sites-available/https.$dom /etc/nginx/sites-enabled/https.$dom
+done
+
+echo "# Reloading nginx"
+systemctl reload nginx
+
+echo "# Done"
+
+

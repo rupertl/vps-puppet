@@ -20,6 +20,12 @@ class nginx(Array $sites) {
     notify => Service['nginx'],
   }
 
+  file { "/usr/local/bin/finalise-letsencrypt.sh":
+    ensure  => file,
+    mode => '744',
+    content => epp("nginx/finalise-letsencrypt.sh.epp"),
+  }
+
   file { "$config_dir/nginx.conf":
     ensure  => file,
     content => epp("nginx/nginx.conf.epp"),
@@ -61,7 +67,7 @@ class nginx(Array $sites) {
     $https_available = "${config_dir}/sites-available/https.${website}"
     $https_enabled = "${config_dir}/sites-enabled/https.${website}"
 
-    exec {"add to letsencrypt domains.txt":
+    exec {"add ${website} to letsencrypt domains.txt":
       path    => '/usr/sbin:/usr/bin:/sbin:/bin',
       unless  => "grep -q ${website} ${le_domains}",
       command => "sh -c 'echo ${website} ${site_hash[secondary]} >> ${le_domains}'",
@@ -88,13 +94,7 @@ class nginx(Array $sites) {
       content => epp("nginx/sites/${website}.epp", $site_hash),
     }
 
-    # Don't enable it yet
-    # # Make a symlink in sites-enabled
-    # file { "$https_enabled":
-    #   ensure => link,
-    #   target => "$https_available",
-    #   require => File["$https_available"]
-    # }
+    # The https config is enabled later, after certs are generated.
   }
 
   service { 'nginx':
@@ -102,5 +102,12 @@ class nginx(Array $sites) {
     enable => true,
     hasstatus => true,
     hasrestart => true,
+  }
+
+  # Generate any missing certs and enable https sites
+  exec {"finalise letsencrypt":
+    command => "/usr/local/bin/finalise-letsencrypt.sh",
+    path    => '/usr/sbin:/usr/bin:/sbin:/bin',
+    require => Service['nginx'],
   }
 }
