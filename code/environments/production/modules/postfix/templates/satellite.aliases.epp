@@ -14,3 +14,4 @@ abuse: root
 noc: root
 security: root
 root: <%= $postfix::primary_user %>
+<%= $postfix::primary_user %>: <%= $postfix::primary_user %>@<%= $postfix::primary_domain %>
