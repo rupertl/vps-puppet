@@ -7,12 +7,12 @@
 #   "satellite" for servers that do not have local delivery and forward
 #               all email to a mailhost
 # primary_user: who to send aliased email to
-# rewrite_from: rewritten from address for emails from satellites
+# primary_domain: primary domain to send emails from
 # relayhost: where to route email for satellites
 # relayuser: SASL username to use when routing satellite email
 # relaypassword: SASL username to use when routing satellite email
 
-class postfix ($server_type, $primary_user, $rewrite_from, $relayhost, $relayuser, $relaypassword) {
+class postfix ($server_type, $primary_user, $primary_domain, $relayhost, $relayuser, $relaypassword) {
   $config_dir = "/etc/postfix"
 
   if ($server_type != "mailhost" and $server_type != "satellite") {

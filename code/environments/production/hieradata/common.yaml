@@ -40,7 +40,7 @@ postfix::server_type: satellite
 postfix::primary_user: "%{hiera('user')}"
 
 # Rewrite from address for emails from satellites
-postfix::rewrite_from: "%{hiera('email')}"
+postfix::primary_domain: "rupert-lane.org"
 
 # Where to route email for satellites
 postfix::relayhost: udon.rupert-lane.org
