@@ -37,7 +37,7 @@ http {
                     "$http_user_agent $server_name";
 
     access_log /var/log/nginx/access.log main;
-    error_log /var/log/nginx/error.log;
+    error_log stderr;
 
     # Gzip settings
     gzip on;
