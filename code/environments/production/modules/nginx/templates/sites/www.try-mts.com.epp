@@ -1,0 +1,45 @@
+<%- | String $website, Optional[String] $secondary = undef | -%>
+# nginx http site config for www.try-mts.com
+# Managed by puppet
+# $website - primary name of website, eg example.com
+# $secondary - other name to redirect from, eg www.example.com
+
+<% unless $secondary =~ Undef { -%>
+# Redirect secondary to primary
+server {
+    listen      443;
+    server_name <%= $secondary %>;
+
+    ssl                  on;
+    ssl_certificate      /opt/letsencrypt/certs/<%= $website %>/fullchain.pem;
+    ssl_certificate_key  /opt/letsencrypt/certs/<%= $website %>/privkey.pem;
+
+    return 301 $scheme://<%= $website %>$request_uri;
+}
+<% } -%>
+
+# Main config
+server {
+    listen       443;
+    server_name <%= $website %>;
+    ssl                  on;
+    ssl_certificate      /opt/letsencrypt/certs/<%= $website %>/fullchain.pem;
+    ssl_certificate_key  /opt/letsencrypt/certs/<%= $website %>/privkey.pem;
+
+    location /google07ddf4de5150aff6.html {
+        alias /srv/www/<%= $website %>/google07ddf4de5150aff6.html;
+    }
+
+    # Serve static files
+    location /files/ {
+        alias /srv/www/<%= $website %>/files/;
+        autoindex off;
+    }
+
+    # Reverse proxy everything to the node instance
+    location / {
+        proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   Host      $http_host;
+        proxy_pass         http://127.0.0.1:10330;
+    }
+}

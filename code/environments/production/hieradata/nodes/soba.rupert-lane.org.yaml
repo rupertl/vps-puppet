@@ -10,3 +10,5 @@ nginx::sites:
   - website: soba.rupert-lane.org
   - website: www.rupert-lane.org
     secondary: rupert-lane.org
+  - website: www.try-mts.com
+    secondary: try-mts.com
