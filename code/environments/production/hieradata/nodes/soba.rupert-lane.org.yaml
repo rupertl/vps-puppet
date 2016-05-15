@@ -4,6 +4,7 @@
 classes:
   - letsencrypt
   - nginx
+  - ghost
 
 # Sites to serve via nginx
 nginx::sites:
@@ -12,3 +13,7 @@ nginx::sites:
     secondary: rupert-lane.org
   - website: try-mts.com
     secondary: www.try-mts.com
+
+# Ghost blog try-mts.com
+ghost::dir: /srv/www/www.try-mts.com/ghost
+ghost::user: ghostmts

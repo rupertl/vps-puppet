@@ -1,0 +1,16 @@
+[Unit]
+Description=Ghost blog
+After=network.target
+
+[Service]
+Type=simple
+PIDFile=/run/ghost.pid
+WorkingDirectory=<%= $ghost::dir %>
+User=<%= $ghost::user %>
+Group=<%= $ghost::user %>
+ExecStart=/usr/bin/npm start --production <%= $ghost::dir %>
+ExecStop=/usr/bin/npm stop <%= $ghost::dir %>
+StandardOutput=null
+
+[Install]
+WantedBy=multi-user.target
