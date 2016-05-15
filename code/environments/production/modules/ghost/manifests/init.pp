@@ -12,6 +12,12 @@ class ghost(String $dir, String $user) {
     notify => Service['ghost'],
   }
 
+  user { $user:
+    ensure => present,
+    system => true,
+    managehome => false,
+  }
+
   File {
     owner => 'root',
     group => 'root',
