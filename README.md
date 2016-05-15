@@ -11,6 +11,7 @@ The configuration implements installation of the software below as modules:
 * apticron: handle regular system package updates
 * essential: install general utility packages
 * etckeeper: store /etc in git
+* ghost: blogging system written in node.js
 * letsencrypt: generate SSL certificates
 * nginx: web server
 * ntpd: synchronise system time
@@ -22,7 +23,6 @@ The configuration implements installation of the software below as modules:
 These need to be updated
 
 * backups: use duplicity to backup servers
-* nodejs: programming language
 * php: programming language
 * postfix: email server [for mailhosts]
 * pup_check: custom script to check puppet config
