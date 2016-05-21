@@ -16,6 +16,7 @@ The configuration implements installation of the software below as modules:
 * nginx: web server
 * ntpd: synchronise system time
 * postfix: email server
+* pup_check: custom script to check puppet config
 * sshd: ssh server
 * ssh_public: install ssh authorized keys
 * sudo: controlled root access
@@ -25,7 +26,6 @@ These need to be updated
 * backups: use duplicity to backup servers
 * php: programming language
 * postfix: email server [for mailhosts]
-* pup_check: custom script to check puppet config
 
 ## Bootstrap
 
