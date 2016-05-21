@@ -109,5 +109,6 @@ class nginx(Array $sites) {
     command => "/usr/local/bin/finalise-letsencrypt.sh",
     path    => '/usr/sbin:/usr/bin:/sbin:/bin',
     require => Service['nginx'],
+    refreshonly => true,
   }
 }
