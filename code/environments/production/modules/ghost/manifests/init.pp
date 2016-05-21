@@ -7,7 +7,7 @@
 # user - user to run ghost as
 
 class ghost(String $dir, String $user) {
-  package { ['build-essential', 'nodejs', 'nodejs-legacy', 'npm', 'unzip']:
+  package { ['build-essential', 'nodejs', 'nodejs-legacy', 'npm', 'unzip', 'postgresql', 'postgresql-client']:
     ensure => installed,
     notify => Service['ghost'],
   }
