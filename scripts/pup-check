@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/opt/puppetlabs/puppet/bin/ruby
 
 # Run puppet in noop mode to see if there are any differences between
 # the manifest and the current system config.
@@ -6,12 +6,11 @@
 # This is intended to be run from cron so if any output is generated
 # it will be emailed to root.
 
-Dir.chdir '/etc/puppet'
 hostname=`/bin/hostname`.strip
 
-command = '/usr/bin/puppet apply '
+command = '/opt/puppetlabs/bin/puppet apply '
 command << '--show_diff --noop --color=false '
-command << "manifests/#{hostname}.pp "
+command << "/etc/puppetlabs/code/environments/production/manifests/site.pp "
 command << '2>&1'
 
 output = `#{command}`
@@ -20,18 +19,14 @@ abort("Error running puppet command: #{output}") unless $?.success?
 # See if the command produced any useful output
 diagnostics = []
 output.split("\n").each do |line|
-  # Ignore PCI facter warnings on virtual environments
-  next if line =~ /^(pcilib|lspci): /
-
-  next if line.empty? || line =~ /^notice: Finished catalog run/
-
+  next if line.empty? || line =~ /^Notice: (Compiled|Applied) catalog/
   diagnostics << line
 end
 
 if diagnostics.empty?
   exit(0)
 else
-  puts("puppet found differences between manifest and system")
+  puts("puppet found differences between manifest and system on #{hostname}")
   puts()
 
   diagnostics.each { |line| puts line }
