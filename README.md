@@ -15,6 +15,7 @@ The configuration implements installation of the software below as modules:
 * letsencrypt: generate SSL certificates
 * nginx: web server
 * ntpd: synchronise system time
+* php: programming language for web applications
 * postfix: email server
 * pup_check: custom script to check puppet config
 * sshd: ssh server
@@ -24,7 +25,6 @@ The configuration implements installation of the software below as modules:
 These need to be updated
 
 * backups: use duplicity to backup servers
-* php: programming language
 * postfix: email server [for mailhosts]
 
 ## Bootstrap

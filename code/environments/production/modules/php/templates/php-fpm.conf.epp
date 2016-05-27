@@ -1,18 +1,19 @@
-; Managed by Puppet
+; /etc/php5/fpm/php-fpm.conf - Config for the PHP FPM accelerator
+; This config is managed by puppet.
 
 ;;;;;;;;;;;;;;;;;;;;;
 ; FPM Configuration ;
 ;;;;;;;;;;;;;;;;;;;;;
 
 ; All relative paths in this configuration file are relative to PHP's install
-; prefix (/usr). This prefix can be dynamicaly changed by using the
+; prefix (/usr). This prefix can be dynamically changed by using the
 ; '-p' argument from the command line.
 
 ; Include one or more files. If glob(3) exists, it is used to include a bunch of
 ; files from a glob(3) pattern. This directive can be used everywhere in the
 ; file.
 ; Relative path can also be used. They will be prefixed by:
-;  - the global prefix if it's been set (-p arguement)
+;  - the global prefix if it's been set (-p argument)
 ;  - /usr otherwise
 ;include=/etc/php5/fpm/*.conf
 
@@ -24,16 +25,14 @@
 ; Pid file
 ; Note: the default prefix is /var
 ; Default Value: none
-;pid = run/php-fpm.pid
-pid = /var/run/php5-fpm.pid
+pid = /run/php5-fpm.pid
 
 ; Error log file
 ; If it's set to "syslog", log is sent to syslogd instead of being written
 ; in a local file.
 ; Note: the default prefix is /var
 ; Default Value: log/php-fpm.log
-;error_log = log/php-fpm.log
-error_log = /var/log/php5-fpm.log
+error_log = syslog
 
 ; syslog_facility is used to specify what type of program is logging the
 ; message. This lets syslogd specify that messages from different facilities
@@ -80,6 +79,14 @@ error_log = /var/log/php5-fpm.log
 ; Default Value: 0
 ; process.max = 128
 
+; Specify the nice(2) priority to apply to the master process (only if set)
+; The value can vary from -19 (highest priority) to 20 (lower priority)
+; Note: - It will only work if the FPM master process is launched as root
+;       - The pool process will inherit the master process priority
+;         unless it specified otherwise
+; Default Value: no set
+; process.priority = -19
+
 ; Send FPM to background. Set to 'no' to keep FPM in foreground for debugging.
 ; Default Value: yes
 ;daemonize = yes
@@ -101,7 +108,15 @@ error_log = /var/log/php5-fpm.log
 ; - /dev/poll  (Solaris >= 7)
 ; - port       (Solaris >= 10)
 ; Default Value: not set (auto detection)
-; events.mechanism = epoll
+;events.mechanism = epoll
+
+; When FPM is build with systemd integration, specify the interval,
+; in second, between health report notification to systemd.
+; Set to 0 to disable.
+; Available Units: s(econds), m(inutes), h(ours)
+; Default Unit: seconds
+; Default value: 10
+;systemd_interval = 10
 
 ;;;;;;;;;;;;;;;;;;;;
 ; Pool Definitions ; 

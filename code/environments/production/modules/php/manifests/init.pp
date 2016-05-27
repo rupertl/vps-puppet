@@ -1,5 +1,5 @@
 # This class manages the package, files and service for the php-fpm
-# server. It only includes configs which are not stock Ubuntu.
+# server. It only includes configs which are not stock.
 
 class php {
   $config_dir = "/etc/php5"
@@ -9,7 +9,7 @@ class php {
   }
 
   $php_extras = ["php-apc", "php5-cli", "php5-curl", "php5-gd", "php5-mcrypt",
-                 "php5-pgsql", "php5-suhosin", "php5-intl" ]
+                 "php5-pgsql", "php5-intl" ]
   package { $php_extras:
     ensure => "installed"
   }
@@ -23,13 +23,13 @@ class php {
   }
 
   file { "$config_dir/fpm/php-fpm.conf":
-    ensure => present,
-    source => 'puppet:///modules/php/php-fpm.conf',
+    ensure => file,
+    content => epp('php/php-fpm.conf.epp'),
   }
 
   file { "$config_dir/fpm/pool.d/www.conf":
-    ensure => present,
-    source => 'puppet:///modules/php/fpm-pool-www.conf',
+    ensure => file,
+    source => epp('php/fpm-pool-www.conf.epp',
   }
 
   service { 'php5-fpm':

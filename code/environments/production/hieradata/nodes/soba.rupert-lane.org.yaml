@@ -5,6 +5,7 @@ classes:
   - letsencrypt
   - nginx
   - ghost
+  - php
 
 # Sites to serve via nginx
 nginx::sites:
