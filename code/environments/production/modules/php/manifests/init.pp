@@ -29,7 +29,7 @@ class php {
 
   file { "$config_dir/fpm/pool.d/www.conf":
     ensure => file,
-    source => epp('php/fpm-pool-www.conf.epp'),
+    content => epp('php/fpm-pool-www.conf.epp'),
   }
 
   service { 'php5-fpm':
