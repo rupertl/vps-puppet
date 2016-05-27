@@ -49,15 +49,10 @@ class nginx(Array $sites) {
     notify => Service['nginx'],
   }
 
-  # file { "$config_dir/conf.d/php-socket.conf":
-  #   ensure  => file,
-  #   content => epp("nginx/php-socket.conf.epp"),
-  # }
-
-  # file { "$config_dir/fastcgi_params":
-  #   ensure  => file,
-  #   content => epp("nginx/fastcgi_params.epp"),
-  # }
+  file { "$config_dir/conf.d/php-socket.conf":
+    ensure  => file,
+    content => epp("nginx/php-socket.conf.epp"),
+  }
 
   # Deploy each site
   $sites.each |Hash $site_hash| {

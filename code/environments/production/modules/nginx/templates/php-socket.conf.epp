@@ -1,5 +1,6 @@
-# Managed by Puppet
+# /etc/nginx/conf.d/php-socket.conf - PHP socket config for nginx
+# This config is managed by puppet.
 
 upstream php5-fpm-socket {
-    server unix:/var/run/php5-fpm.socket;
+    server unix:/var/run/php5-fpm.sock;
 }
