@@ -54,6 +54,9 @@ sub backup
 {
     my ($command) = @_;
 
+    # Set permissions on created files so they are not world readable
+    umask(0027);
+
     # Create filename based on type of backup, eg backup.daily.gz
     my $filename = "backup.$command";
     if ($command eq 'now')
