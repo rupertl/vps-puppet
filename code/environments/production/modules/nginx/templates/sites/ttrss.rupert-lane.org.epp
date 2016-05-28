@@ -1,12 +1,33 @@
-# nginx site config - managed by puppet
+<%- | String $website, Optional[String] $secondary = undef | -%>
+# nginx http site config for ttrss.rupert-lane.org
+# Managed by puppet
+# $website - primary name of website, eg example.com
+# $secondary - other name to redirect from, eg www.example.com
 
-# Tiny Tiny RSS instance
+<% unless $secondary =~ Undef { -%>
+# Redirect secondary to primary
 server {
-    access_log /var/log/nginx/ttrss-access.log;
-    root /data/websites/prod/ttrss.rupert-lane.org;
-    index index.html index.htm index.php;
+    listen      443;
+    server_name <%= $secondary %>;
 
-    server_name ttrss.rupert-lane.org;
+    ssl                  on;
+    ssl_certificate      /opt/letsencrypt/certs/<%= $website %>/fullchain.pem;
+    ssl_certificate_key  /opt/letsencrypt/certs/<%= $website %>/privkey.pem;
+
+    return 301 $scheme://<%= $website %>$request_uri;
+}
+<% } -%>
+
+# Main config
+server {
+    listen       443;
+    server_name <%= $website %>;
+    ssl                  on;
+    ssl_certificate      /opt/letsencrypt/certs/<%= $website %>/fullchain.pem;
+    ssl_certificate_key  /opt/letsencrypt/certs/<%= $website %>/privkey.pem;
+
+    root /srv/www/<%= $website %>;
+    index index.html index.htm index.php;
 
     location / {
         try_files $uri $uri/ =404;
@@ -16,17 +37,12 @@ server {
     location ~ /cache/ { deny  all; }
     location ~ /lock/  { deny  all; }
 
-    location ~ [^/]\.php(/|$) {
-        fastcgi_split_path_info ^(.+?\.php)(/.*)$;
-        if (!-f $document_root$fastcgi_script_name) {
-            return 404;
-        }
-
-        fastcgi_pass php5-fpm-socket;
-        fastcgi_index index.php;
-        include fastcgi_params;
-    }
-
     # This will deny access to any hidden file (beginning with a .period)
     location ~ /\. { deny  all; }
+
+    location ~ \.php$ {
+        include fastcgi.conf;
+        fastcgi_pass php5-fpm-socket;
+        fastcgi_index index.php;
+    }
 }

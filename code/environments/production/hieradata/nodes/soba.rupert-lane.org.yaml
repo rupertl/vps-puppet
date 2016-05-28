@@ -14,6 +14,7 @@ nginx::sites:
     secondary: rupert-lane.org
   - website: try-mts.com
     secondary: www.try-mts.com
+  - website: ttrss.rupert-lane.org
 
 # Ghost blog try-mts.com
 ghost::dir: /srv/www/www.try-mts.com/ghost
