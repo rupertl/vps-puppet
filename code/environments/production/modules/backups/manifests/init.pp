@@ -1,32 +1,52 @@
 # This class manages backup cron jobs
 
-class backups {
-  $std_env = "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+class backups(String $backup_dir) {
+  $postgres_backup_dir = "${backup_dir}/postgres";
 
-  if $hostname == "udon" {
-    cron { backup_duplicity:
-      command     => "/usr/local/bin/backup-duplicity.sh backup",
-      environment => $std_env,
-      user        => root,
-      hour        => 5,
-      minute      => 4,
-    }
+  package { 'libdatetime-perl':
+    ensure => installed,
+  }
 
-    cron { backup_postgres_daily:
-      command     => "/usr/local/bin/backup-postgres.pl daily",
-      environment => $std_env,
-      user        => postgres,
-      hour        => 5,
-      minute      => 31,
-    }
+  file { $backup_dir:
+    ensure  => directory,
+    owner => 'root',
+    group => 'root',
+    mode => '755',
+    notify => File[$postgres_backup_dir],
+  }
 
-    cron { backup_postgres_weekly:
-      command     => "/usr/local/bin/backup-postgres.pl weekly",
-      environment => $std_env,
-      user        => postgres,
-      hour        => 5,
-      minute      => 36,
-      weekday     => 1,
-    }
+  file { $postgres_backup_dir:
+    ensure  => directory,
+    owner => 'postgres',
+    group => 'postgres',
+    mode => '755',
+  }
+
+  file { '/usr/local/bin/backup-postgres.pl':
+    ensure  => file,
+    owner => 'root',
+    group => 'root',
+    mode => '755',
+    content => epp('backups/backup-postgres.pl.epp'),
+    notify => Cron['backup_postgres_daily', 'backup_postgres_weekly'],
+  }
+
+  Cron {
+    environment => 'PATH=/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+  }
+
+  cron { backup_postgres_daily:
+    command     => "backup-postgres.pl ${backup_dir} daily",
+    user        => postgres,
+    hour        => 20,
+    minute      => 31,
+  }
+
+  cron { backup_postgres_weekly:
+    command     => "backup-postgres.pl ${backup_dir} weekly",
+    user        => postgres,
+    hour        => 20,
+    minute      => 36,
+    weekday     => 1,
   }
 }

@@ -1,0 +1,75 @@
+#!/usr/bin/env perl
+
+# Backup postgres database to local file.
+# Should be run as user postgres from cron. If any errors it will
+# produce output that will be emailed by cron, otherwise it is silent.
+
+# usage: backup_postgres.pl DIR COMMAND
+# DIR is where backups should be stored
+# COMMAND is 'daily' or 'weekly' for normal backups
+# Each time this is run the last copy will be kept
+# Use COMMAND 'now' for an adhoc backup named with the date
+# Use COMMAND 'list' to show status of backups
+
+# See
+# http://www.postgresql.org/docs/9.1/static/backup-dump.html#BACKUP-DUMP-RESTORE
+# for details on how to restore dumps.
+
+use strict;
+use warnings;
+use utf8;
+use DateTime;
+
+# Globals
+my @commands = qw(daily weekly now list);
+
+if (scalar(@ARGV) != 2 || ! grep(/^$ARGV[1]$/, @commands))
+{
+    die "usage: backup_postgres.pl DIR daily|weekly|now|list\n";
+}
+my $backup_dir = $ARGV[0];
+my $command = $ARGV[1];
+
+if ($command eq 'list')
+{
+    list();
+}
+else
+{
+    backup($command);
+}
+
+exit(0);
+
+sub list
+{
+    print "POSTGRES BACKUPS AND DISK SPACE:\n\n";
+    print `ls -al $backup_dir`;
+    print "\n";
+    print `du -h $backup_dir`;
+    exit(0);
+}
+
+sub backup
+{
+    my ($command) = @_;
+
+    # Create filename based on type of backup, eg backup.daily.gz
+    my $filename = "backup.$command";
+    if ($command eq 'now')
+    {
+        my $now = DateTime->now(time_zone => 'local');
+        $filename .= "." . $now->ymd;
+    }
+    $filename .= ".gz";
+
+    # Rotate the previous log file - OK if this does not exist
+    if ($command ne 'now')
+    {
+        rename("$backup_dir/$filename", "$backup_dir/previous.$filename");
+    }
+
+    # Create the dump file locally
+    my $dump_cmd = `pg_dumpall | gzip > $backup_dir/$filename`;
+    die("Error creating backup:\n$dump_cmd\n")  if $dump_cmd ne '';
+}

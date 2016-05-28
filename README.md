@@ -9,6 +9,7 @@ I'm using Debian Jessie and Puppet 4.4 at present. Some Puppet 4 features such a
 The configuration implements installation of the software below as modules:
 
 * apticron: handle regular system package updates
+* backups: scheduled database backups
 * essential: install general utility packages
 * etckeeper: store /etc in git
 * ghost: blogging system written in node.js
@@ -26,7 +27,6 @@ The configuration implements installation of the software below as modules:
 
 These need to be updated
 
-* backups: use duplicity to backup servers
 * postfix: email server [for mailhosts]
 
 ## Bootstrap
