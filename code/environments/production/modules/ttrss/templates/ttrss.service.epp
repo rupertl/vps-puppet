@@ -1,0 +1,13 @@
+[Unit]
+Description=Tiny Tiny RSS feeds update daemon
+After=network.target
+After=postgresql.service
+
+[Service]
+ExecStart=/usr/bin/php <%= $ttrss::dir %>/update_daemon2.php
+WorkingDirectory=<%= $ttrss::dir %>
+User=<%= $ttrss::user %>
+Group=<%= $ttrss::user %>
+
+[Install]
+WantedBy=multi-user.target

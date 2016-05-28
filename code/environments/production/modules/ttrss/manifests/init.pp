@@ -13,25 +13,25 @@ class ttrss(String $dir, String $user) {
     ensure => present,
     system => true,
     managehome => false,
-#    notify => Service['ghost'],
+    notify => Service['ttrss'],
   }
 
-  # File {
-  #   owner => 'root',
-  #   group => 'root',
-  #   mode => '644',
-  #   notify => Service['ghost'],
-  # }
+  File {
+    owner => 'root',
+    group => 'root',
+    mode => '644',
+    notify => Service['ttrss'],
+  }
 
-  # file { "/etc/systemd/system/ghost.service":
-  #   ensure  => file,
-  #   content => epp('ghost/ghost.service.epp'),
-  # }
+  file { "/etc/systemd/system/ttrss.service":
+    ensure  => file,
+    content => epp('ttrss/ttrss.service.epp'),
+  }
 
-  # service { 'ghost':
-  #   ensure => running,
-  #   enable => true,
-  #   hasstatus => true,
-  #   hasrestart => true,
-  # }
+  service { 'ttrss':
+    ensure => running,
+    enable => true,
+    hasstatus => true,
+    hasrestart => true,
+  }
 }
