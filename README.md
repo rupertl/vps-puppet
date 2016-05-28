@@ -17,6 +17,7 @@ The configuration implements installation of the software below as modules:
 * ntpd: synchronise system time
 * php: programming language for web applications
 * postfix: email server
+* postgres: database engine
 * pup_check: custom script to check puppet config
 * sshd: ssh server
 * ssh_public: install ssh authorized keys
