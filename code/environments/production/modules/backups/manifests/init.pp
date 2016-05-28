@@ -1,13 +1,13 @@
 # This class manages backup cron jobs
 
-class backups(String $backup_dir) {
-  $postgres_backup_dir = "${backup_dir}/postgres";
+class backups(String $dir) {
+  $postgres_backup_dir = "${dir}/postgres";
 
   package { 'libdatetime-perl':
     ensure => installed,
   }
 
-  file { $backup_dir:
+  file { $dir:
     ensure  => directory,
     owner => 'root',
     group => 'root',
@@ -36,14 +36,14 @@ class backups(String $backup_dir) {
   }
 
   cron { backup_postgres_daily:
-    command     => "backup-postgres.pl ${backup_dir} daily",
+    command     => "backup-postgres.pl ${postgres_backup_dir} daily",
     user        => postgres,
     hour        => 20,
     minute      => 31,
   }
 
   cron { backup_postgres_weekly:
-    command     => "backup-postgres.pl ${backup_dir} weekly",
+    command     => "backup-postgres.pl ${postgres_backup_dir} weekly",
     user        => postgres,
     hour        => 20,
     minute      => 36,

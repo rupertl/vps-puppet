@@ -24,3 +24,6 @@ ghost::user: ghostmts
 # Tiny Tiny RSS
 ttrss::dir: /srv/www/ttrss.rupert-lane.org
 ttrss::user: ttrss
+
+# Where to save backups
+backups:dir: /srv/backups
