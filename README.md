@@ -22,6 +22,7 @@ The configuration implements installation of the software below as modules:
 * sshd: ssh server
 * ssh_public: install ssh authorized keys
 * sudo: controlled root access
+* ttrss: Tiny Tiny RSS web application
 
 These need to be updated
 

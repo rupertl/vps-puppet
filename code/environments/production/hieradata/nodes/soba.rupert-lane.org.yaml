@@ -5,7 +5,7 @@ classes:
   - letsencrypt
   - nginx
   - ghost
-  - php
+  - ttrss
 
 # Sites to serve via nginx
 nginx::sites:
@@ -18,3 +18,7 @@ nginx::sites:
 # Ghost blog try-mts.com
 ghost::dir: /srv/www/www.try-mts.com/ghost
 ghost::user: ghostmts
+
+# Tiny Tiny RSS
+ttrss::dir: /srv/www/ttrss.rupert-lane.org
+ttrss::user: ttrss
