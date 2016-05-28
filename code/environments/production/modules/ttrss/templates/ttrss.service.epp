@@ -4,10 +4,13 @@ After=network.target
 After=postgresql.service
 
 [Service]
+Type=simple
 ExecStart=/usr/bin/php <%= $ttrss::dir %>/ttrss/update_daemon2.php
 WorkingDirectory=<%= $ttrss::dir %>
 User=<%= $ttrss::user %>
 Group=<%= $ttrss::user %>
+StandardOutput=null
+StandardError=syslog
 
 [Install]
 WantedBy=multi-user.target
