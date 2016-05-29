@@ -94,9 +94,7 @@ class backups(String $dir, String $backup_host, Array $file_backups) {
     $spec_file = "${duplicity_backup_spec_dir}/${name}.spec";
     file { $spec_file:
       ensure  => file,
-      content => epp("backups/duplicity-spec.epp",
-                     $backup_host, $name,
-                     $file_backup[from], $file_backup[full_day]),
+      content => epp("backups/duplicity-spec.epp", $file_backup),
       require => File[$duplicity_backup_spec_dir],
     }
 
