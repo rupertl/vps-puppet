@@ -2,3 +2,4 @@
 /secure/eyaml/keys/private_key.pkcs7.pem
 /secure/eyaml/keys/public_key.pkcs7.pem
 /puppet/ssl/
+*.eyaml

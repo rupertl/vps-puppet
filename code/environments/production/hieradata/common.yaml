@@ -46,27 +46,10 @@ postfix::primary_domain: "rupert-lane.org"
 # Where to route email for satellites
 postfix::relayhost: udon.rupert-lane.org
 
-# SASL user and password for relaying (encrypted)
-postfix::relayuser: >
-    ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEw
-    DQYJKoZIhvcNAQEBBQAEggEAYiUT6e/+LEsIJxJreQix3cK/IRD7MkPI6JVj
-    5DmicQkcjNly2ddkPKPXW4YQV6ZYln/PlrVy79tDg5zqMdzYM+uXyXFM6GU8
-    OhzvC1xWVT+jg3MLbGmLzDYvHCyaBC8M4ko7iLFJ+25NtCbHYamBnv4baReI
-    nAPkI9rCQAP6DoCb2vazzL42Ls7Fa34J/k5zXQp7vlrIX9V6p1yzSIHtLh3K
-    u+4jO4oQu49nOye+djtGovdS2xoTmmlHw7PPuLFWXCq7byUXnvF9bfigJyFp
-    9JgWqhFzACMmJyIBRvJSHatXi0E8O4tvXebId8CLPdg85c737u0C58IgWCCF
-    xQHzoTA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBazyadRvLN5QnPdt8K
-    /Tq1gBAzPo+LKdEKL+61um+e9nxM]
-postfix::relaypassword: >
-    ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEw
-    DQYJKoZIhvcNAQEBBQAEggEAMGtErrGN1Kch2LesLppLukud4Ni5sxoKKJB3
-    QkERLLFlz/XA7XdUO3zkM9XGENOnxEIlbQzsaLuxTAAlVa6bqWpTegKTA7pK
-    QCyPGdtDC81hnIHw5V9qtRRvin3gKPQGqexYQafj+9wqpeKKC1krsQ67p59u
-    UmVPUWYugbZCbyQB93uTFDZzt8KEi7Ne5N2VD+jcH2WkWATZR6MuASDEdEEG
-    Zkt66BZDRtRqmY301f9DTFjQc0fRvHqE29GGdX6h8Ri6FbcZqKeJwdkYV3Jz
-    ZROsfD4VbtNlQnWQDXQp8ekaKDyQBuHDCBmZv4TY/IlQ1nb40cbmOE02K9xo
-    9wSEqDA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAPc5bFcG0Aiisd5CBt
-    fRCpgBDu6OuG5dKGOJMFdyC4hYHA]
+# SASL user and password for relaying
+# These should be provided in the encrypted YAML file
+# postfix::relayuser:
+# postfix::relaypassword:
 
 # What user to install ssh authorized_keys for
 ssh_public::user: "%{hiera('user')}"

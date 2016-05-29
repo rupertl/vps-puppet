@@ -41,7 +41,7 @@ wget -qO - https://raw.githubusercontent.com/rupertl/vps-puppet/puppet4/scripts/
 
 This will also install the [encrypted YAML](https://github.com/TomPoulton/hiera-eyaml) gem. 
 
-Finally,  copy the EYAML keys to `/etc/puppetlabs/secure/eyaml/keys/`. Obviously if you are not me you won't have these, so you'll need to regenerate any encrypted sections of Hiera files.
+Finally, copy the EYAML keys to `/etc/puppetlabs/secure/eyaml/keys/` and encrypted YAML files under `hieradata`. Obviously if you are not me you won't have these, so you'll need to regenerate any encrypted Hiera files.
 
 ## Use
 

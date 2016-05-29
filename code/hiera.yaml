@@ -3,11 +3,16 @@
 # Format for hiera files
 # Uses encrypted YAML from https://github.com/TomPoulton/hiera-eyaml
 :backends:
+  - yaml
   - eyaml
 
-# Where to find hiera data
+# Where to find regular hiera data
+:yaml:
+  :datadir: "/etc/puppetlabs/code/environments/production/hieradata"
+
+# Where to find encrypted hiera data
 :eyaml:
-  :extension: 'yaml'
+  :extension: 'eyaml'
   :datadir: "/etc/puppetlabs/code/environments/production/hieradata"
   # Keys for encryption/decryption. Private key should not be checked in.
   :pkcs7_private_key: /etc/puppetlabs/secure/eyaml/keys/private_key.pkcs7.pem
