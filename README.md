@@ -17,17 +17,13 @@ The configuration implements installation of the software below as modules:
 * nginx: web server
 * ntpd: synchronise system time
 * php: programming language for web applications
-* postfix: email server
+* postfix: email server relaying to a smarthost
 * postgres: database engine
 * pup_check: custom script to check puppet config
 * sshd: ssh server
 * ssh_public: install ssh authorized keys
 * sudo: controlled root access
 * ttrss: Tiny Tiny RSS web application
-
-These need to be updated
-
-* postfix: email server [for mailhosts]
 
 ## Bootstrap
 
@@ -36,10 +32,10 @@ Do a basic install of Debian, selecting ssh-server as the only extra task.
 Run the bootstrap script to install Puppet PC1 and clone this repo.
 
 ```
-wget -qO - https://raw.githubusercontent.com/rupertl/vps-puppet/puppet4/scripts/bootstrap.sh | bash
+wget -qO - https://raw.githubusercontent.com/rupertl/vps-puppet/master/scripts/bootstrap.sh | bash
 ```
 
-This will also install the [encrypted YAML](https://github.com/TomPoulton/hiera-eyaml) gem. 
+This will also install the [encrypted YAML](https://github.com/TomPoulton/hiera-eyaml) gem.
 
 Finally, copy the EYAML keys to `/etc/puppetlabs/secure/eyaml/keys/` and encrypted YAML files under `hieradata`. Obviously if you are not me you won't have these, so you'll need to regenerate any encrypted Hiera files.
 
