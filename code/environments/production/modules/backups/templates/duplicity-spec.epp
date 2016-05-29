@@ -7,9 +7,9 @@
 # duplicity spec file to backup <%= $from %>
 # Managed by puppet
 
-NAME=<%= $name %>
-LOCAL_DIR=<%= $from %>
-REMOTE_DIR=ssh://backups@<%= $backups::backup_host %>/systems/<%= $::hostname %>/duplicity/<%= $name %>
-FULL_DAY=<%= $full_day %>
+export NAME=<%= $name %>
+export LOCAL_DIR=<%= $from %>
+export REMOTE_DIR=ssh://backups@<%= $backups::backup_host %>/systems/<%= $::hostname %>/duplicity/<%= $name %>
+export FULL_DAY=<%= $full_day %>
 
 source /root/.duplicity-passphrase
