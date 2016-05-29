@@ -27,3 +27,10 @@ ttrss::user: ttrss
 
 # Where to save backups
 backups::dir: /srv/backups
+backups::backup_host: mezzelune.rupert-lane.org
+backups::file_backups:
+  - name: soba-opt
+    from: /opt
+    full_day: 10
+    hour: 21
+    minute: 02

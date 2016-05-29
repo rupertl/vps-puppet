@@ -1,0 +1,121 @@
+#!/bin/bash
+
+# Script for creating backups with Duplicity.
+# Full backups are made on the 1st day of each month or with the 'full' option.
+# Incremental backups are made on any other days.
+# Up to two months of backups are kept
+#
+# Set the environment variable SPEC to a file to be sourced containing
+# the following variables:
+#
+# NAME=<logical name for backup, eg udon-data>
+# PASSPHRASE=<gpg secret passphrase>
+# LOCAL_DIR=<local directory to backup, eg /data>
+# REMOTE_DIR=<remote directory to backup, eg ssh://user@host/dir
+# FULL_DAY=<day of month to do full backups on>
+#
+# You can also set this optional item if you want to exclude items
+# from the backup.
+# EXCL_OPTS=--exclude /data/db
+#
+# You need to run this with the 'full' option the first time this is run.
+
+# Based on code from the following scripts
+# http://wiki.hetzner.de/index.php/Duplicity_Script/en
+# https://github.com/prae5/duplicitybackup.sh/
+
+SPEC=${SPEC:-/root/.duplicity-spec}
+[ ! -r $SPEC ] && { echo "Duplicity spec file $SPEC missing"; exit 1; }
+source $SPEC
+
+[ -z "$NAME" ] && { echo "Backup NAME not specified"; exit 1; }
+[ -z "$PASSPHRASE" ] && { echo "PASSPHRASE not specified"; exit 1; }
+[ -z "$LOCAL_DIR" ] && { echo "LOCAL_DIR not specified"; exit 1; }
+[ -z "$REMOTE_DIR" ] && { echo "REMOTE_DIR not specified"; exit 1; }
+[ -z "$FULL_DAY" ] && { echo "FULL_DAY not specified"; exit 1; }
+
+LOGFILE="/var/log/duplicity-$NAME.log"
+# Keep the last logile
+[ -r $LOGFILE ] && mv $LOGFILE ${LOGFILE}.1
+
+OPTS="--ssh-backend=pexpect --name=$NAME"
+SOURCE="$LOCAL_DIR"
+DEST="$REMOTE_DIR"
+
+# Get day of the month
+DATE=`date +%d`
+
+# Do a backup
+# S1 = full or incremental
+backup()
+{
+    # First remove everything older than 2 months
+    echo "===Removing old backups===" >> $LOGFILE
+    duplicity remove-older-than 2M --force $OPTS $DEST >> $LOGFILE
+
+    echo "===Doing a $1 backup===" >> $LOGFILE
+    duplicity $1 $OPTS $EXCL_OPTS $SOURCE $DEST >> $LOGFILE
+
+    if grep -q "Errors 0" "$LOGFILE"; then
+        return
+    else
+        mail -s "Duplicity Backup Errors on `hostname -f`" root < $LOGFILE
+    fi
+}
+
+# Restore duplicity backup
+# file [time] destination
+# Destination should not already exist
+restore()
+{
+    if [ $# = 2 ]; then
+        duplicity restore $OPTS --file-to-restore $1 $DEST $2
+    else
+        duplicity restore $OPTS --file-to-restore $1 --time $2 $DEST $3
+    fi
+}
+
+# List files backed up
+list()
+{
+    duplicity list-current-files $OPTS $DEST
+}
+
+# Check duplicity collection-stats
+status()
+{
+    duplicity collection-status $OPTS $DEST
+}
+
+# Verify duplicity backups
+verify()
+{
+    duplicity verify $OPTS $DEST $SOURCE
+}
+
+# Main if/elif loop
+if [ "$1" = "backup" ]; then
+    if [ $DATE = $FULL_DAY ]; then
+        backup full
+    else
+        backup incremental
+    fi
+elif [ "$1" = "full" ]; then
+    backup full
+elif [ "$1" = "list" ]; then
+    list
+elif [ "$1" = "restore" ]; then
+    if [ $# = 3 ]; then
+        restore $2 $3
+    else
+        restore $2 $3 $4
+    fi
+elif [ "$1" = "status" ]; then
+    status
+elif [ "$1" = "verify" ]; then
+    verify
+else
+    echo "backup_duplicity.sh [backup|full|list|restore|status|verify]"
+fi
+
+exit 0

@@ -1,0 +1,14 @@
+<%- | String $backup_host, String $name, String $local_dir, String $full_day | -%>
+# duplicity spec file
+# Managed by puppet
+# $backup_host - where to send backups
+# $name - logical name for backup
+# $local_dir - local directory to backup
+# $full_day - day of month to do full backups on
+
+NAME=<%= $name %>
+LOCAL_DIR=<%= $local_dir %>
+REMOTE_DIR=ssh://backups@<%= $backup_host %>/systems/<%= $::hostname %>/duplicity/<%= $name %>
+FULL_DAY=<%= $full_day %>
+
+source /root/.duplicity-passphrase
