@@ -100,7 +100,9 @@ class backups(String $dir, String $backup_host, Array $file_backups) {
 
     # Set up a cron job to run the backup each day
     cron { "backup_${name}":
-      command     => "SPEC=${spec_file} backup-duplicity.sh backup",
+      environment => ['PATH=/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+                      "SPEC=${spec_file}"],
+      command     => "backup-duplicity.sh backup",
       user        => root,
       hour        => $file_backup[hour],
       minute      => $file_backup[minute],

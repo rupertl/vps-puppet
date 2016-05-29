@@ -1,9 +1,11 @@
-<%- | String $name, String $from, String $full_day | -%>
-# duplicity spec file
+<%- | String $name, String $from, Integer $full_day, Integer $hour, Integer $minute | -%>
+<%# $name - logical name for backup -%>
+<%# $from - local directory to backup -%>
+<%# $full_day - day of month to do full backups on -%>
+<%# $hour - hour to run backup (not used) -%>
+<%# $minute - minute to run backup (not used) -%>
+# duplicity spec file to backup <%= $from %>
 # Managed by puppet
-# $name - logical name for backup
-# $from - local directory to backup
-# $full_day - day of month to do full backups on
 
 NAME=<%= $name %>
 LOCAL_DIR=<%= $from %>
