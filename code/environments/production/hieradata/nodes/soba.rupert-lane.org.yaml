@@ -34,3 +34,13 @@ backups::file_backups:
     full_day: 10
     hour: 21
     minute: 02
+  - name: soba-srv
+    from: /srv
+    full_day: 11
+    hour: 21
+    minute: 17
+  - name: soba-home
+    from: /home
+    full_day: 12
+    hour: 21
+    minute: 32
