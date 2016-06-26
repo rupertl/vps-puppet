@@ -5,7 +5,7 @@
 # IPv6 syntax: [address]:port
 # For example: 0.0.0.0:9999, [::]:9999
 # IPv6 adresses are configured to only allow IPv6 connections
-hosts = 0.0.0.0:5232
+hosts = localhost:5232
 
 # Daemon flag
 daemon = False
