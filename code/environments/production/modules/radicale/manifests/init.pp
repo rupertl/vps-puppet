@@ -5,20 +5,18 @@
 # localhost. Access and HTTPS should be controlled through nginx - see
 # https://www.blogobramje.nl/posts/How_to_run_radicale_behind_nginx/
 
+# This uses the latest version of radicale from git. You should run
+# sudo python3 ./setup.py install there to get the correct python
+# dependencies.
+
 # Parameters:
-# src_dir - directory where radicale is installed
 # date_dir - directory where radicale should store files
 # user - user to run radicale update service as
 
-class radicale(String $src_dir, String $data_dir, String $user) {
+class radicale(String $data_dir, String $user) {
 
   $config_dir = "/etc/radicale";
   $config_file = "${config_dir}/config";
-
-  package { 'python-vobject':
-    ensure => installed,
-    notify => Service['radicale'],
-  }
 
   user { $user:
     ensure => present,

@@ -47,7 +47,6 @@ backups::file_backups:
     minute: 32
 
 # Radicale
-radicale::src_dir: /opt/radicale
 radicale::data_dir: /srv/radicale
 radicale::user: radicale
 

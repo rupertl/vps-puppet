@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=<%= $radicale::src_dir %>/radicale.py
+ExecStart=/usr/local/bin/radicale
 WorkingDirectory=<%= $radicale::data_dir %>
 User=<%= $radicale::user %>
 Group=<%= $radicale::user %>
