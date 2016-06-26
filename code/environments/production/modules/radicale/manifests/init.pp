@@ -1,17 +1,23 @@
 # This class manages the package, files and service for the Radicale
 # calendar.contacts service.
 
-# Runs radicale as a daemon through systemd allowing connections from
-# localhost. Access and HTTPS should be controlled through nginx - see
-# https://www.blogobramje.nl/posts/How_to_run_radicale_behind_nginx/
-
-# This uses the latest version of radicale from git. You should run
-# sudo python3 ./setup.py install there to get the correct python
-# dependencies.
-
 # Parameters:
 # date_dir - directory where radicale should store files
 # user - user to run radicale update service as
+
+# Runs radicale as a daemon through systemd allowing connections from
+# localhost. Authentication and HTTPS encryption should be controlled
+# through nginx - see
+# https://www.blogobramje.nl/posts/How_to_run_radicale_behind_nginx/
+
+# As Debian Jessie has an old version of radicale we need to use the
+# version from git; however note that the current dev version (as of
+# 26 June 2016) does not seem to work with CalDAVSync on Android so
+# you should check out the latest stable version 1.1.1
+
+# From the unpacked git repo, run sudo python3 ./setup.py install
+# there to get the correct python dependencies and install it to
+# /usr/local/bin
 
 class radicale(String $data_dir, String $user) {
 
