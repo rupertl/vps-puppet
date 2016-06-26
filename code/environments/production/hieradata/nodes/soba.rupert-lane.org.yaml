@@ -7,6 +7,7 @@ classes:
   - nginx
   - ghost
   - ttrss
+  - radicale
 
 # Sites to serve via nginx
 nginx::sites:
@@ -44,3 +45,10 @@ backups::file_backups:
     full_day: 12
     hour: 21
     minute: 32
+
+# Radicale
+radicale::src_dir: /opt/radicale
+radicale::data_dir: /srv/radicale
+radicale::user: radicale
+
+
