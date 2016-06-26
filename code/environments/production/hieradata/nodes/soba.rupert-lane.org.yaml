@@ -48,7 +48,7 @@ backups::file_backups:
     minute: 32
 
 # Radicale
-radicale::data_dir: /srv/radicale
+radicale::data_dir: /srv/www/cal.rupert-lane.org
 radicale::user: radicale
 
 
