@@ -11,6 +11,15 @@
 # user - user to run radicale update service as
 
 class radicale(String $src_dir, String $data_dir, String $user) {
+
+  $config_dir = "/etc/radicale";
+  $config_file = "${config_dir}/config";
+
+  package { 'python-vobject':
+    ensure => installed,
+    notify => Service['radicale'],
+  }
+
   user { $user:
     ensure => present,
     system => true,
@@ -34,8 +43,18 @@ class radicale(String $src_dir, String $data_dir, String $user) {
     require => User[$user],
   }
 
+  # Config directory
+  file { $config_dir:
+    ensure  => directory,
+    owner => $user,
+    group => $user,
+    mode => '755',
+    require => User[$user],
+    notify => File[$config_file],
+  }
+
   # Radicale main config file
-  file { "/etc/radicale/config":
+  file { $config_file:
     ensure  => file,
     content => epp("radicale/config.epp"),
   }
