@@ -28,7 +28,7 @@ server {
 
     # Send all traffic to radicale, protected by basic auth.
     # The password file is provided by the radicale module.
-    location /radicale {
+    location / {
         auth_basic "Radicale";
         auth_basic_user_file /srv/www/<%= $website %>/.radicale.passwd;
         proxy_pass http://localhost:5232;
