@@ -26,7 +26,12 @@ server {
     ssl_certificate      /opt/letsencrypt/certs/<%= $website %>/fullchain.pem;
     ssl_certificate_key  /opt/letsencrypt/certs/<%= $website %>/privkey.pem;
 
-    # Send all traffic to radicale, protected by basic auth.
+    # Allow robots.txt
+    location /robots.txt {
+        alias /srv/www/<%= $website %>/robots.txt;
+    }
+
+    # Send all other traffic to radicale, protected by basic auth.
     # The password file is provided by the radicale module.
     location / {
         auth_basic "Radicale";
