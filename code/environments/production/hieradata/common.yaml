@@ -59,6 +59,9 @@ ssh_public::keys:
   Rupert Lane <rupert@rupert-lane.org>:
     type: ssh-rsa
     key: "AAAAB3NzaC1yc2EAAAADAQABAAABAQDhPbRyb2wq3ycZSXBmtBcjyu4LOodNII4kSDsvdHgRvk96K6W8u/T8+ewvuL8Yjezm4YPwuqWVyUOk5ngfs+SuN3vd0NVZDan9DTVDMnJZJUw5kBXzWSWLckBJWvDV5PB13nYPoQmf3r/CBXaDjmrGSnVwiXl4ljuhi3qTGAxC2oMHAGRZ3PIYaO40GpcpxA4UklZusWYHTzRtTVcmZv8hJzp5ZrpooYVoFHfjTd9iUYqUUcQSAHXkj1HfDaXJq85rYSl0po1c4n+HQQbCU8oFYxrB7Wk/vsAVYlfTOKrQ2Bu393NKiS3khITrXzdWJW9iV8laGV0dRnhRJHE4hUpD"
+  Rupert Lane (saratp) <rupert@rupert-lane.org>:
+    type: ssh-rsa
+    key: "AAAAB3NzaC1yc2EAAAADAQABAAABAQD0cc/vYAThQd/brFRBSuOV/9JVAci3EouwhlzPaxUroUnDrlwiPjMG1zqLiu+yIOM9Z++36iso/pBhoA1TS9vf2Ml42t2V5gsVbiZN4bdFSt7YloLl/8Z5y4SZXsKBWJ7UcHx6MoAzfsV4U9qnnHLvap9y/cdsauwhzbbwWlXSxELBOhgoF0Fbhv7cSHo6NhgNQwmJ7Ev04tcAxIMbiSr0nOpSld8Dtmxj1iTII4Y638pr1PYR7okESvTmPzpuQwomUPc7mdq8m+vsYIRwurevQLwmxBLfcioe01CIorg0AUUO+NMVOmPjqVhfr3wsmO535oNksBCJuoe2smf/8mT1"
 
 # User to grant sudo access to
 sudo::users:
