@@ -54,5 +54,5 @@ radicale::data_dir: /srv/www/cal.rupert-lane.org
 radicale::user: radicale
 
 # Multiccy webapp
-multiccy::dir: /srv/www/www.multiccy.rupert-lane.org/multiccy
+multiccy::dir: /srv/www/multiccy.rupert-lane.org/multiccy
 multiccy::user: multiccy
