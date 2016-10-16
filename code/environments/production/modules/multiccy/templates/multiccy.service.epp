@@ -1,0 +1,15 @@
+[Unit]
+Description=Multiccy webapp
+After=network.target
+
+[Service]
+Type=simple
+PIDFile=/run/multiccy.pid
+WorkingDirectory=<%= $multiccy::dir %>
+User=<%= $multiccy::user %>
+Group=<%= $multiccy::user %>
+ExecStart=<%= $multiccy::dir %>/bin/multiccyServer.sh
+StandardOutput=null
+
+[Install]
+WantedBy=multi-user.target

@@ -8,6 +8,7 @@ classes:
   - ghost
   - ttrss
   - radicale
+  - multiccy
 
 # Sites to serve via nginx
 nginx::sites:
@@ -18,6 +19,7 @@ nginx::sites:
     secondary: www.try-mts.com
   - website: ttrss.rupert-lane.org
   - website: cal.rupert-lane.org
+  - website: multiccy.rupert-lane.org
 
 # Ghost blog try-mts.com
 ghost::dir: /srv/www/www.try-mts.com/ghost
@@ -51,4 +53,6 @@ backups::file_backups:
 radicale::data_dir: /srv/www/cal.rupert-lane.org
 radicale::user: radicale
 
-
+# Multiccy webapp
+multiccy::dir: /srv/www/www.multiccy.rupert-lane.org/multiccy
+multiccy::user: multiccy
