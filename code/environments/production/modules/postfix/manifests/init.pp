@@ -43,45 +43,11 @@ class postfix ($server_type, $primary_user, $primary_domain, $relayhost, $relayu
     content => epp("postfix/${server_type}.master.cf.epp"),
   }
 
-  # TODO: mailhost
-  if ($server_type == "mailhost") {
-    file { "$config_dir/sasl/smtpd.conf":
-      ensure => present,
-      source => 'puppet:///modules/postfix/smtpd.conf',
-      notify => Service['postfix'],
-    }
-  }
-
   service { 'postfix':
     ensure => running,
     enable => true,
     hasstatus => true,
     hasrestart => true,
-  }
-
-  # TODO: mailhost
-  if ($server_type == "mailhost") {
-    # Postfix on mailhosts relies on saslauthd for authentication so
-    # this is defined here also. Note that SSL certificate generation
-    # is not covered.
-
-    package { 'sasl2-bin':
-      ensure => installed,
-    }
-
-    file { '/etc/default/saslauthd':
-      ensure => present,
-      source => 'puppet:///modules/postfix/saslauthd',
-      require => Package['sasl2-bin'],
-      notify => Service['saslauthd'],
-    }
-
-    service { 'saslauthd':
-      ensure => running,
-      enable => true,
-      hasstatus => true,
-      hasrestart => true,
-    }
   }
 
   # Configure SMTP forwarding to mailhost for satellites
@@ -121,11 +87,10 @@ class postfix ($server_type, $primary_user, $primary_domain, $relayhost, $relayu
   # The virtual and aliases files need to be converted to DB format
   # when changed.
 
-  # TODO: mailhost
   if ($server_type == "mailhost") {
     file { "$config_dir/virtual":
-      ensure => present,
-      source => 'puppet:///modules/postfix/virtual',
+      ensure  => file,
+      content => epp("postfix/virtual.epp"),
       notify => Exec['postmap virtual'],
     }
 

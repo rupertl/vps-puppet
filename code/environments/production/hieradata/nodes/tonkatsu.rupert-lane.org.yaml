@@ -1,0 +1,11 @@
+# tonkatsu.rupert-lane.org.yaml - hiera definitions for node tonkatsu
+---
+# What classses to install
+classes:
+
+# We are a postfix mailhost
+postfix::server_type: mailhost
+
+# Use Lets Encrypt TLS cert/key from website
+postfix::tls_cert_file: /opt/letsencrypt/certs/www.rupert-lane.org/fullchain.pem
+postfix::tls_key_file: /opt/letsencrypt/certs/www.rupert-lane.org/privkey.pem

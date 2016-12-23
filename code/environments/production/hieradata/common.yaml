@@ -40,8 +40,13 @@ postfix::server_type: satellite
 # User to send aliases email to
 postfix::primary_user: "%{hiera('user')}"
 
-# Rewrite from address for emails from satellites
+# Rewrite from address for emails from satellites and primary domain
+# to receive emails on for mailhost.
 postfix::primary_domain: "rupert-lane.org"
+
+# Other domains we want to receive emails on.
+postfix::secondary_domains:
+  - try-mts.com
 
 # Where to route email for satellites
 postfix::relayhost: udon.rupert-lane.org

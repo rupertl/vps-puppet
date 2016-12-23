@@ -1,0 +1,6 @@
+# /etc/postfix/virtual - Postfix virtual aliases file
+# Managed by puppet.
+
+rl rupert
+rel rupert
+rupertl rupert
