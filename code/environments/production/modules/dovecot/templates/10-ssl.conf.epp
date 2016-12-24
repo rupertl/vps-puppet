@@ -8,8 +8,8 @@ ssl = yes
 # dropping root privileges, so keep the key file unreadable by anyone but
 # root. Included doc/mkcert.sh can be used to easily generate self-signed
 # certificate, just make sure to update the domains in dovecot-openssl.cnf
-ssl_cert = <<%= $postfix::tls_cert_file %>
-ssl_key = <<%= $postfix::tls_key_file %>
+ssl_cert = <<%= $dovecot::tls_cert_file %>
+ssl_key = <<%= $dovecot::tls_key_file %>
 
 # If key file is password protected, give the password here. Alternatively
 # give it when starting dovecot with -p parameter. Since this file is often
