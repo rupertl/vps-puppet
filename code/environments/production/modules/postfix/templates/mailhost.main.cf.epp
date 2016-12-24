@@ -235,7 +235,7 @@ tls_random_source = dev:/dev/urandom
 ###################################################################
 
 # Command to run for local delivery
-mailbox_command = /usr/lib/dovecot/deliver -c /etc/dovecot/conf.d/01-mail-stack-delivery.conf -m "${EXTENSION}"
+mailbox_command = /usr/lib/dovecot/dovecot-lda -f "$SENDER" -a "$RECIPIENT"
 
 # Where to store locally delivered email
 home_mailbox = Maildir/
