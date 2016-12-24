@@ -11,8 +11,14 @@
 # relayhost: where to route email for satellites
 # relayuser: SASL username to use when routing satellite email
 # relaypassword: SASL username to use when routing satellite email
+# secondary_domains: Array of domains we also serve mail for
+# tls_cert_file: TLS full chain certificate filename
+# tls_key_file: TLS private key filename
 
-class postfix ($server_type, $primary_user, $primary_domain, $relayhost, $relayuser, $relaypassword) {
+class postfix ($server_type, $primary_user, $primary_domain,
+               $relayhost, $relayuser, $relaypassword,
+               $secondary_domains = [],
+               $tls_cert_file = "", $tls_key_file = "") {
   $config_dir = "/etc/postfix"
 
   if ($server_type != "mailhost" and $server_type != "satellite") {

@@ -2,8 +2,10 @@
 # IMAP server. It only includes configs which are not stock.
 
 # Parameters
+# tls_cert_file: TLS full chain certificate filename
+# tls_key_file: TLS private key filename
 
-class dovecot () {
+class dovecot ($tls_cert_file, $tls_key_file) {
   $config_root_dir = "/etc/dovecot"
   $config_dir = "${config_root_dir}/conf.d"
 
