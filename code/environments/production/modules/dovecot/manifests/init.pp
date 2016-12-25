@@ -84,6 +84,12 @@ class dovecot ($tls_cert_file, $tls_key_file) {
     content => epp("dovecot/90-sieve.conf.epp"),
   }
 
+  # Override port settings for systemd socket activation
+  file { "/etc/systemd/system/dovecot.socket":
+    ensure  => file,
+    content => epp('dovecot/dovecot.socket.epp'),
+  }
+
   service { 'dovecot':
     ensure => running,
     enable => true,
