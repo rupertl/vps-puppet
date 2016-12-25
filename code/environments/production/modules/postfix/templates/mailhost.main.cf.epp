@@ -28,7 +28,7 @@ mydestination =
     localhost
 
 # Trusted networks that mail can come from
-mynetworks = <%= $::ipaddress %> <%= $::ipaddress6 %> 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
 
 # Interfaces to listen on; as we are a mailhost this will be everything
 inet_interfaces = all
@@ -78,8 +78,8 @@ smtpd_helo_restrictions =
 # Does reject_unknown_helo_hostname imply the previous two? Not sure
 # from the docs.
 
-# Disable delivery status notifications and log.
-smtpd_discard_ehlo_keywords = dsn
+# Disable delivery status notifications and don't log
+smtpd_discard_ehlo_keywords =silent-discard, dsn
 
 # Sender restrictions (ie on MAIL FROM)
 # 1) Allow my networks unconditionally
