@@ -140,6 +140,21 @@ message_size_limit = 104857600
 
 
 ###################################################################
+# Milters
+###################################################################
+
+# Protocol 6 for postfix >= 2.6
+milter_protocol = 6
+
+# If the milter is down, accept anyway
+milter_default_action = accept
+
+# Connect milters for OpenDKIM local socket
+smtpd_milters = local:/opendkim/opendkim.sock
+non_smtpd_milters = local:/opendkim/opendkim.sock
+
+
+###################################################################
 # Aliases
 ###################################################################
 
