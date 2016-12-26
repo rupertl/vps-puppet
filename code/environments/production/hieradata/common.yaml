@@ -49,7 +49,7 @@ postfix::secondary_domains:
   - try-mts.com
 
 # Where to route email for satellites
-postfix::relayhost: udon.rupert-lane.org
+postfix::relayhost: tonkatsu.rupert-lane.org
 
 # SASL user and password for relaying
 # These should be provided in the encrypted YAML file
