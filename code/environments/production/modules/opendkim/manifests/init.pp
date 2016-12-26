@@ -67,6 +67,30 @@ class opendkim ($primary_domain, $secondary_domains) {
     require => File[$config_dir],
   }
 
+  # Add postfix to opendkim group if not already
+  exec {"opendkim group postfix":
+    unless => "/usr/bin/getent group opendkim | /usr/bin/cut -d: -f4 | /bin/grep -q postfix",
+    command => "/usr/sbin/usermod -a -G opendkim postfix",
+    require => Package['opendkim'],
+    notify => Service['opendkim'],
+  }
+
+  # Create the directory for the socket postfix will use
+  file { "/var/spool/postfix/opendkim":
+    ensure => directory,
+    mode => '0755',
+    owner => 'opendkim',
+    group => 'postfix',
+    notify => Service['opendkim'],
+  }
+
+  # Configure the socket for postfix
+  file { "/etc/default/opendkim":
+    ensure  => file,
+    content => epp("opendkim/opendkim.epp"),
+    notify => Service['opendkim'],
+  }
+
   service { 'opendkim':
     ensure => running,
     enable => true,
