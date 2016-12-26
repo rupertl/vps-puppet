@@ -44,7 +44,7 @@ postfix::primary_user: "%{hiera('user')}"
 postfix::primary_domain: "rupert-lane.org"
 
 # Where to route email for satellites
-postfix::relayhost: udon.rupert-lane.org
+postfix::relayhost: tonkatsu.rupert-lane.org
 
 # SASL user and password for relaying
 # These should be provided in the encrypted YAML file
