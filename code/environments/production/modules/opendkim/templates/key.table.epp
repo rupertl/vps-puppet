@@ -1,8 +1,7 @@
 # /etc/opendkim/key.table - Lookup table for OpenDKIM keys
 # Managed by puppet
 
-example     example.com:YYYYMM:/etc/opendkim/keys/example.private
 <%= $opendkim::primary_domain %> <%= $opendkim::primary_domain %>:201612:/etc/opendkim/keys/<%= $opendkim::primary_domain %>.private
-<% opendkim::secondary_domains.each |$domain| { -%>
+<% $opendkim::secondary_domains.each |$domain| { -%>
 <%= $domain %> <%= $domain %>:201612:/etc/opendkim/keys/<%= $domain %>.private
 <% } -%>
