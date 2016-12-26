@@ -2,7 +2,7 @@
 # Managed by puppet
 
 example     example.com:YYYYMM:/etc/opendkim/keys/example.private
-<%= $postfix::primary_domain %> <%= $postfix::primary_domain %>:201612:/etc/opendkim/keys/<%= $postfix::primary_domain %>.private
-<% $postfix::secondary_domains.each |$domain| { -%>
+<%= $opendkim::primary_domain %> <%= $opendkim::primary_domain %>:201612:/etc/opendkim/keys/<%= $opendkim::primary_domain %>.private
+<% opendkim::secondary_domains.each |$domain| { -%>
 <%= $domain %> <%= $domain %>:201612:/etc/opendkim/keys/<%= $domain %>.private
 <% } -%>

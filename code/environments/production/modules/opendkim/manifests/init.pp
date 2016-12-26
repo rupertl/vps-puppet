@@ -12,7 +12,7 @@
 class opendkim ($primary_domain, $secondary_domains) {
   $config_file = "/etc/opendkim.conf"
   $config_dir = "/etc/opendkim"
-  $ket_dir = "${config_dir}/keys"
+  $key_dir = "${config_dir}/keys"
 
   package { ['opendkim', 'opendkim-tools']:
     ensure => installed,
