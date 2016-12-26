@@ -17,6 +17,7 @@ The configuration implements installation of the software below as modules:
 * letsencrypt: generate SSL certificates
 * nginx: web server
 * ntpd: synchronise system time
+* opendkim: email signing service
 * php: programming language for web applications
 * postfix: email, both for main relay host and satellites
 * postgres: database engine
