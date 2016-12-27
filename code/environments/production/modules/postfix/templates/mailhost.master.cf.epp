@@ -11,6 +11,7 @@
 #               (yes)   (yes)   (yes)   (never) (100)
 # ==========================================================================
 smtp      inet  n       -       -       -       -       smtpd
+  -o content_filter=spamassassin
 submission inet n       -       -       -       -       smtpd
   -o syslog_name=postfix/submission
   -o smtpd_tls_security_level=encrypt
@@ -41,8 +42,6 @@ lmtp      unix  -       -       -       -       -       lmtp
 anvil     unix  -       -       -       -       1       anvil
 scache    unix  -       -       -       -       1       scache
 
-# Old spamassassi config
-# smtp      inet  n       -       -       -       -       smtpd -o content_filter=spamassassi
-# spamassassin unix -     n       n       -       -       pipe
-#    user=spamd argv=/usr/bin/spamc -f -e  
-#    /usr/sbin/sendmail -oi -f ${sender} ${recipient}
+spamassassin unix -     n       n       -       -       pipe
+  user=debian-spamd argv=/usr/bin/spamc -e
+  /usr/lib/dovecot/dovecot-lda -f ${sender} ${recipient}
