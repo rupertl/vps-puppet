@@ -29,12 +29,12 @@ backups::file_backups:
     full_day: 15
     hour: 05
     minute: 02
-  - name: soba-srv
+  - name: tonkatsu-srv
     from: /srv
     full_day: 16
     hour: 05
     minute: 17
-  - name: soba-home
+  - name: tonkatsu-home
     from: /home
     full_day: 17
     hour: 05
