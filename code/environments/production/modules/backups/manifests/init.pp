@@ -13,8 +13,11 @@
 # You will also need to set up the following, which are outside of
 # Puppet's control for now:
 # 1. Add root's public key for source host to backups@backup_host
-# 2. Create a file ~root/.duplicity-passphrase with the GPG passphrase
-#    to encrypt backups with
+# 2. Create directory ~backups/systems/<SYSTEM>/duplicity on backup_host
+# 3. Create a file ~root/.duplicity-passphrase with the GPG passphrase
+#    to encrypt backups with (export PASSPHRASE='<PASSPHRASE>')
+# 4. After installing this module, run as root a full backup for each new item
+# eg SPEC=<SPEC_FILE> /usr/local/bin/backup-duplicity.sh full
 
 class backups(String $dir, String $backup_host, Array $file_backups) {
   package { ['libdatetime-perl', 'duplicity']:
