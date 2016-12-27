@@ -29,9 +29,9 @@ class spamassassin () {
   }
 
   # Spamassassin client config file
-  file { "/etc/spamassassin/spamc.cf":
+  file { "/etc/spamassassin/spamc.conf":
     ensure  => file,
-    content => epp("spamassassin/spamc.cf.epp"),
+    content => epp("spamassassin/spamc.conf.epp"),
   }
 
   service { 'spamassassin':
