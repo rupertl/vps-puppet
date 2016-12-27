@@ -6,6 +6,7 @@ classes:
   - dovecot
   - opendkim
   - postgres
+  - spamassassin
 
 # We are a postfix mailhost
 postfix::server_type: mailhost

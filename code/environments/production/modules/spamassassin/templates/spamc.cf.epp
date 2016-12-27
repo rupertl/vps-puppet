@@ -1,0 +1,4 @@
+# /etc/spamassassin/spamc.cf - SpamAssassin client config
+
+# Max message size for scanning = 100MB
+-s 100000000

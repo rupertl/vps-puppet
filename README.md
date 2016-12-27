@@ -23,6 +23,7 @@ The configuration implements installation of the software below as modules:
 * postgres: database engine
 * pup_check: custom script to check puppet config
 * radicale: CalDAV/CardDAV calendar/contacts service
+* spamassassin: email filtering service
 * sshd: ssh server
 * ssh_public: install ssh authorized keys
 * sudo: controlled root access
