@@ -5,8 +5,8 @@
 # mails marked as junk to a non-junk folder, or vice versa.
 
 plugin {
-  antispam_debug_target = syslog
-  antispam_verbose_debug = 1
+#  antispam_debug_target = syslog
+#  antispam_verbose_debug = 1
 
   antispam_backend = pipe
   antispam_signature = X-Spam-Flag
