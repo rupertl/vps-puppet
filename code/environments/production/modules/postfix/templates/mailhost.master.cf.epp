@@ -44,4 +44,4 @@ scache    unix  -       -       -       -       1       scache
 
 spamassassin unix -     n       n       -       -       pipe
   user=debian-spamd argv=/usr/bin/spamc -e
-  /usr/lib/dovecot/dovecot-lda -f ${sender} ${recipient}
+  /usr/sbin/sendmail -oi -f ${sender} ${recipient}
