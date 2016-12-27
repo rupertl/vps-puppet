@@ -4,6 +4,7 @@
 classes:
   - dovecot
   - opendkim
+  - postgres
 
 # We are a postfix mailhost
 postfix::server_type: mailhost
@@ -18,3 +19,22 @@ dovecot::tls_key_file: "%{hiera('postfix::tls_key_file')}"
 opendkim::primary_domain: "%{hiera('postfix::primary_domain')}"
 opendkim::secondary_domains: "%{alias('postfix::secondary_domains')}"
 
+# Where to save backups
+backups::dir: /srv/backups
+backups::backup_host: mezzelune.rupert-lane.org
+backups::file_backups:
+  - name: tonkatsu-opt
+    from: /opt
+    full_day: 15
+    hour: 05
+    minute: 02
+  - name: soba-srv
+    from: /srv
+    full_day: 16
+    hour: 05
+    minute: 17
+  - name: soba-home
+    from: /home
+    full_day: 17
+    hour: 05
+    minute: 32
