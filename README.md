@@ -19,6 +19,7 @@ The configuration implements installation of the software below as modules:
 * ntpd: synchronise system time
 * opendkim: email signing service
 * php: programming language for web applications
+* pflogsumm: Postfix reporting
 * postfix: email, both for main relay host and satellites
 * postgres: database engine
 * pup_check: custom script to check puppet config

@@ -5,6 +5,7 @@ classes:
   - backups
   - dovecot
   - opendkim
+  - pflogsumm
   - postgres
   - spamassassin
 
