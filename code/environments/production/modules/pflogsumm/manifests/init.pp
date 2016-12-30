@@ -9,8 +9,7 @@ class pflogsumm () {
 
   cron { pflogsumm_daily_report:
     environment => 'PATH=/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
-    command     => "/usr/sbin/pflogsumm --problems-first -d yesterday /var/log/mail
-log 2>&1 | /usr/bin/mailx -s \"`uname -n` daily mail report\" postmaster",
+    command     => "/usr/sbin/pflogsumm --problems-first -d yesterday /var/log/mail.log 2>&1 | /usr/bin/mailx -s \"`uname -n` daily mail report\" postmaster",
     user        => root,
     hour        => 02,
     minute      => 47,
