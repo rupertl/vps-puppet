@@ -1,10 +1,11 @@
-# This class manages the package, files and service for the spamassassin
-# spam filtering server. It only includes configs which are not stock.
+# This class manages the package, files and service for the
+# spamassassin spam filtering server and associated milter. It only
+# includes configs which are not stock.
 
 class spamassassin () {
-  package { ['spamassassin', 'spamc', 'dovecot-antispam']:
+  package { ['spamassassin', 'spamc', 'dovecot-antispam', 'spamass-milter']:
     ensure => installed,
-    notify => Service['spamassassin'],
+    notify => Service['spamassassin', 'spamass-milter'],
   }
 
   File {
@@ -12,7 +13,6 @@ class spamassassin () {
     group => 'root',
     mode => '644',
     require => Package['spamassassin'],
-    notify => Service['spamassassin'],
   }
 
   # Configure the running environment for spamassassin
@@ -26,15 +26,31 @@ class spamassassin () {
   file { "/etc/spamassassin/local.cf":
     ensure  => file,
     content => epp("spamassassin/local.cf.epp"),
+    notify => Service['spamassassin'],
   }
 
   # Spamassassin client config file
   file { "/etc/spamassassin/spamc.conf":
     ensure  => file,
     content => epp("spamassassin/spamc.conf.epp"),
+    notify => Service['spamassassin'],
   }
 
   service { 'spamassassin':
+    ensure => running,
+    enable => true,
+    hasstatus => true,
+    hasrestart => true,
+  }
+
+  # Configure the running environment for the spamassassin milter
+  file { "/etc/default/spamass-milter":
+    ensure  => file,
+    content => epp("spamassassin/spamass-milter.epp"),
+    notify => Service['spamass-milter'],
+  }
+
+  service { 'spamass-milter':
     ensure => running,
     enable => true,
     hasstatus => true,

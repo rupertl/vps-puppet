@@ -149,8 +149,9 @@ milter_protocol = 6
 # If the milter is down, accept anyway
 milter_default_action = accept
 
-# Connect milters for OpenDKIM local socket
-smtpd_milters = local:/opendkim/opendkim.sock
+# Connect milters for OpenDKIM local socket and SpamAssassin
+# Outgoing queue just has OpenDKIM
+smtpd_milters = local:/opendkim/opendkim.sock, local:/spamass/spamass.sock
 non_smtpd_milters = local:/opendkim/opendkim.sock
 
 
