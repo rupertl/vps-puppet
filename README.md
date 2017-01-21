@@ -10,17 +10,21 @@ The configuration implements installation of the software below as modules:
 
 * apticron: handle regular system package updates
 * backups: scheduled database backups
+* dovecot: IMAP mailbox server
 * essential: install general utility packages
 * etckeeper: store /etc in git
 * ghost: blogging system written in node.js
 * letsencrypt: generate SSL certificates
 * nginx: web server
 * ntpd: synchronise system time
+* opendkim: email signing service
 * php: programming language for web applications
-* postfix: email server relaying to a smarthost
+* pflogsumm: Postfix reporting
+* postfix: email, both for main relay host and satellites
 * postgres: database engine
 * pup_check: custom script to check puppet config
 * radicale: CalDAV/CardDAV calendar/contacts service
+* spamassassin: email filtering service
 * sshd: ssh server
 * ssh_public: install ssh authorized keys
 * sudo: controlled root access

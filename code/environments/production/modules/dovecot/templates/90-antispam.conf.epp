@@ -1,0 +1,28 @@
+# /etc/dovecot/conf.d/90-antispam.conf - Antispam training config
+# Managed by puppet
+
+# This uses the antispam plugin to retrain spamassassin when we move
+# mails marked as junk to a non-junk folder, or vice versa.
+
+plugin {
+#  antispam_debug_target = syslog
+#  antispam_verbose_debug = 1
+
+  antispam_backend = pipe
+  antispam_signature = X-Spam-Flag
+  antispam_signature_missing = move
+
+  antispam_trash = trash;Trash;Deleted Items;Deleted Messages
+  antispam_trash_pattern = trash;Trash;Deleted *
+  antispam_trash_pattern_ignorecase = TRASH
+
+  antispam_spam = Spam;Junk
+  antispam_spam_pattern = spam;Spam;junk;Junk
+  antispam_spam_pattern_ignorecase = SPAM;JUNK
+
+  antispam_pipe_tmpdir = /var/tmp
+  antispam_pipe_program = /usr/bin/spamc
+  antispam_pipe_program_args = --username;debian-spamd
+  antispam_pipe_program_spam_arg = --learntype=spam
+  antispam_pipe_program_notspam_arg = --learntype=ham
+}

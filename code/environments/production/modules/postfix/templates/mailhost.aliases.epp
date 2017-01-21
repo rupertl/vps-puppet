@@ -1,4 +1,5 @@
-# Email aliases file. Managed by puppet.
+# /etc/aliases - Postfix email aliases file
+# Managed by puppet.
 
 postmaster: root
 nobody: root
@@ -11,6 +12,5 @@ ftp: root
 abuse: root
 noc: root
 security: root
-root: rupert
-postgres: rupert
-
+postgres: root
+root: <%= $postfix::primary_user %>

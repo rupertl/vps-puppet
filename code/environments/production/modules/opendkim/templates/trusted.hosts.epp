@@ -1,0 +1,8 @@
+# /etc/opendkim/trusted.hosts - Hosts that can send email
+# Managed by puppet
+
+127.0.0.1
+::1
+localhost
+<%= $::hostname %>
+<%= $::fqdn %>

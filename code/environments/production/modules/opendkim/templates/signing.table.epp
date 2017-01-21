@@ -1,0 +1,7 @@
+# /etc/opendkim/signing.table - Map domains to keys
+# Managed by puppet
+
+*@<%= $opendkim::primary_domain %> <%= $opendkim::primary_domain %>
+<% $opendkim::secondary_domains.each |$domain| { -%>
+*@<%= $domain %> <%= $domain %>
+<% } -%>

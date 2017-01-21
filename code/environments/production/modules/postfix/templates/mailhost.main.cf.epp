@@ -1,0 +1,277 @@
+# /etc/postfix/main.cf - Postfix main config file for mailhosts
+# Managed by puppet
+
+# Note that several of these parameters are overridden in master.cf
+
+###################################################################
+# Networks, domains and interfaces
+###################################################################
+
+# The internet hostname of this mail system.
+myhostname = <%= $::fqdn %>
+
+# The domain name that locally-posted mail appears to come from, and
+# that locally posted mail is delivered to
+myorigin = <%= $postfix::primary_domain %>
+
+# The mydestination parameter specifies the list of domains that this
+# machine considers itself the final destination for. Secondary
+# domains share the same users as the primary domain in my case.
+mydestination =
+    <%= $postfix::primary_domain %>,
+    <% $postfix::secondary_domains.each |$domain| { -%>
+    <%= $domain %>,
+    <% } -%>
+    <%= $::hostname %>,
+    <%= $::fqdn %>,
+    localhost.localdomain,
+    localhost
+
+# Trusted networks that mail can come from
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+
+# Interfaces to listen on; as we are a mailhost this will be everything
+inet_interfaces = all
+
+# Support IPv4 and v6
+inet_protocols = all
+
+###################################################################
+# SMTPD control
+###################################################################
+
+# Order of restrictions in Postfix 2.11
+# client -> helo -> sender -> relay -> recipient -> data -> end-of-data
+
+# Restrictions on initial client connection
+# 1) Allow my networks unconditionally
+# 2) Allow SASL authenticated clients
+# 3) Reject if IP->name or name->IP fails or they don't match. This has
+#    caused poorly configured but legitimate email senders to be
+#    rejected before but is quite a common requirement now so is
+#    enabled.
+# 4) Allow everything else
+smtpd_client_restrictions =
+    permit_mynetworks,
+    permit_sasl_authenticated,
+    reject_unknown_client_hostname,
+    permit
+
+# HELO restrictions
+
+# Client must provide a HELO
+smtpd_helo_required = yes
+
+# 1) Allow my networks unconditionally
+# 2) Allow SASL authenticated clients
+# 3) Reject if HELO hostname is not a FQDN.
+# 4) Reject if HELO hostname is invalid
+# 5) Reject if HELO hostname does not have an A or MX record
+# 6) Allow everything else
+smtpd_helo_restrictions =
+    permit_mynetworks,
+    permit_sasl_authenticated, 
+    reject_non_fqdn_helo_hostname,
+    reject_invalid_helo_hostname,
+    reject_unknown_helo_hostname,
+    permit
+# Does reject_unknown_helo_hostname imply the previous two? Not sure
+# from the docs.
+
+# Disable delivery status notifications and don't log
+smtpd_discard_ehlo_keywords =silent-discard, dsn
+
+# Sender restrictions (ie on MAIL FROM)
+# 1) Allow my networks unconditionally
+# 2) Allow SASL authenticated clients
+# 3) Reject if MAIL FROM is a non FQDN
+# 4) Reject if we are not final destination and no MX for MAIL FROM
+# 5) Allow everything else
+smtpd_sender_restrictions =
+    permit_mynetworks,
+    permit_sasl_authenticated,
+    reject_non_fqdn_sender,
+    reject_unknown_sender_domain,
+    permit
+
+# Relay control for RCPT TO (who can send mail)
+# 1) Allow my networks unconditionally
+# 2) Allow SASL authenticated clients
+# 3) Reject unless we are the final destination
+smtpd_relay_restrictions =
+    permit_mynetworks,
+    permit_sasl_authenticated,
+    reject_unauth_destination
+
+# Recipient restrictions for RCPT TO (block spam)
+# 1) Allow my networks unconditionally
+# 2) Allow SASL authenticated clients
+# 3) Reject if RCPT TO is not a FQDN
+# 4) Reject if RCPT TO is not us or does not have a MX record
+# 5) Reject if client IP is on the Spamhaus Zen RBL
+# 6) Reject if client reverse address is on theSpamhaus DBL
+# 7) Reject if HELO address is on theSpamhaus DBL
+# 8) Reject if MAIL FROM address is on theSpamhaus DBL
+# 9) Permit everything else
+smtpd_recipient_restrictions =
+    permit_mynetworks,
+    permit_sasl_authenticated,
+    reject_non_fqdn_recipient,
+    reject_unknown_recipient_domain,
+    reject_rbl_client zen.spamhaus.org,
+    reject_rhsbl_reverse_client dbl.spamhaus.org,
+    reject_rhsbl_helo dbl.spamhaus.org,
+    reject_rhsbl_sender dbl.spamhaus.org
+    permit
+
+# Restrictions applied during DATA
+# 1) Allow my networks unconditionally
+# 2) Allow SASL authenticated clients
+# 3) Reject piplining of commands at any point in the session
+# 4) Permit everything else
+smtpd_data_restrictions =
+    permit_mynetworks,
+    permit_sasl_authenticated,
+    reject_unauth_pipelining,
+    permit
+
+# Increase max message size to 100MB
+message_size_limit = 104857600
+
+
+###################################################################
+# Milters
+###################################################################
+
+# Protocol 6 for postfix >= 2.6
+milter_protocol = 6
+
+# If the milter is down, accept anyway
+milter_default_action = accept
+
+# Connect milters for OpenDKIM local socket and SpamAssassin
+# Outgoing queue just has OpenDKIM
+smtpd_milters = local:/opendkim/opendkim.sock, local:/spamass/spamass.sock
+non_smtpd_milters = local:/opendkim/opendkim.sock
+
+
+###################################################################
+# Aliases
+###################################################################
+
+# Where to get email aliases from
+# Aliases map local users, eg root, to recipients
+# alias_maps allows external databases also
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+
+# Where to get virtual email aliases from
+# Virtual aliases map non-local users, eg rupertl, to recipients
+virtual_alias_maps = hash:/etc/postfix/virtual
+
+
+###################################################################
+# Authentication and TLS parameters
+###################################################################
+
+# Outbound SMTP
+# ------------
+
+# Use TLS if possible, but fall back to plaintext if receiver does not
+# support it.
+smtp_tls_security_level = may
+
+# Turn off hopelessly outdated protocols and ciphers. Further security
+# tweaking here is not advisable as we'd just fall back to plaintext
+# anyway.
+smtp_tls_protocols = !SSLv2, !SSLv3
+smtp_tls_ciphers = medium
+
+# Cache outbound SMTP TLS session data
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+
+# Log summary info for TLS sessions
+smtp_tls_loglevel = 1
+
+# Inbound SMTP
+# ------------
+
+# Use TLS if possible, but fall back to plaintext if sender does not
+# support it.
+smtpd_tls_security_level = may
+
+# Opportunistic inbound SMTP TLS protcols and ciphers, similar
+# reasoning as smtp_tls_*
+smtpd_tls_protocols = !SSLv2, !SSLv3
+smtpd_tls_ciphers = medium
+
+# For SASL authenticated sessions we can be a bit more secure
+smtpd_tls_mandatory_protocols = !SSLv2, !SSLv3
+smtpd_tls_mandatory_ciphers = high
+
+# Full chain certificate and key files
+smtpd_tls_cert_file = <%= $postfix::tls_cert_file %>
+smtpd_tls_key_file = <%= $postfix::tls_key_file %>
+
+# Log TLS info in the header, useful only on the final destination.
+smtpd_tls_received_header = yes
+
+# Cache inbound SMTP TLS session data
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+
+# Log summary info for TLS sessions
+smtpd_tls_loglevel = 1
+
+# SASL authentication
+# -------------------
+
+# Interoperability for old remote clients not needed
+broken_sasl_auth_clients = no
+
+# Don't allow anonymous authentication
+smtpd_sasl_security_options = noanonymous
+
+# Report the authenticated SASL user in the headers
+smtpd_sasl_authenticated_header = yes
+
+# Authentication realm for SASL
+smtpd_sasl_local_domain = $myhostname
+
+# Information that SMTPD passes to the SASL plugin to find the socket
+smtpd_sasl_path = private/auth
+
+# Which SASL plugin to use
+smtpd_sasl_type = dovecot
+
+# Source of entropy for PRNG
+tls_random_source = dev:/dev/urandom
+
+###################################################################
+# Local mailbox delivery
+###################################################################
+
+# Command to run for local delivery
+mailbox_command = /usr/lib/dovecot/dovecot-lda -f "$SENDER" -a "$RECIPIENT"
+
+# Where to store locally delivered email
+home_mailbox = Maildir/
+
+# No size limit on mailbox
+mailbox_size_limit = 0
+
+# Allow + in local email addresses
+recipient_delimiter = +
+
+###################################################################
+# Misc features
+###################################################################
+
+# The biff mail notification service
+# I think I last used this in 1993
+biff = no
+
+# Appending .domain is the MUA's job.
+append_dot_mydomain = no
+
+# Directory for Postfix readme files
+readme_directory = no
