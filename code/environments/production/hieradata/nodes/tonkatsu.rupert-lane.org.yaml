@@ -19,8 +19,8 @@ nginx::sites:
 postfix::server_type: mailhost
 
 # Use Lets Encrypt TLS cert/key from website
-postfix::tls_cert_file: /opt/letsencrypt/certs/www.rupert-lane.org/fullchain.pem
-postfix::tls_key_file: /opt/letsencrypt/certs/www.rupert-lane.org/privkey.pem
+postfix::tls_cert_file: /opt/letsencrypt/certs/tonkatsu.rupert-lane.org/fullchain.pem
+postfix::tls_key_file: /opt/letsencrypt/certs/tonkatsu.rupert-lane.org/privkey.pem
 dovecot::tls_cert_file: "%{hiera('postfix::tls_cert_file')}"
 dovecot::tls_key_file: "%{hiera('postfix::tls_key_file')}"
 
