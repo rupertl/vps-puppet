@@ -3,11 +3,17 @@
 # What classses to install
 classes:
   - backups
+  - letsencrypt
+  - nginx
   - dovecot
   - opendkim
   - pflogsumm
   - postgres
   - spamassassin
+
+# Sites to serve via nginx
+nginx::sites:
+  - website: tonkatsu.rupert-lane.org
 
 # We are a postfix mailhost
 postfix::server_type: mailhost
