@@ -10,6 +10,7 @@ classes:
   - pflogsumm
   - postgres
   - spamassassin
+  - multiccy
 
 # Sites to serve via nginx
 nginx::sites:
@@ -47,3 +48,7 @@ backups::file_backups:
     full_day: 17
     hour: 05
     minute: 32
+
+# Multiccy webapp
+multiccy::dir: /srv/www/multiccy.rupert-lane.org/multiccy
+multiccy::user: multiccy
