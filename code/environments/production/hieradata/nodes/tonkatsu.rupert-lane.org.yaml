@@ -14,6 +14,7 @@ classes:
 
 # Sites to serve via nginx
 nginx::sites:
+  - website: multiccy.rupert-lane.org
   - website: tonkatsu.rupert-lane.org
 
 # We are a postfix mailhost
