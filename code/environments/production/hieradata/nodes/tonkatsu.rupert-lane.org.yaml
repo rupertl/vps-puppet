@@ -17,6 +17,8 @@ classes:
 nginx::sites:
   - website: multiccy.rupert-lane.org
   - website: tonkatsu.rupert-lane.org
+  - website: try-mts.com
+    secondary: www.try-mts.com
 
 # We are a postfix mailhost
 postfix::server_type: mailhost
