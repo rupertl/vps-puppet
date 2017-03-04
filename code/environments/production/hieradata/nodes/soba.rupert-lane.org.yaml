@@ -5,7 +5,6 @@ classes:
   - backups
   - letsencrypt
   - nginx
-  - ghost
   - ttrss
   - radicale
 
@@ -18,10 +17,6 @@ nginx::sites:
     secondary: www.try-mts.com
   - website: ttrss.rupert-lane.org
   - website: cal.rupert-lane.org
-
-# Ghost blog try-mts.com
-ghost::dir: /srv/www/www.try-mts.com/ghost
-ghost::user: ghostmts
 
 # Tiny Tiny RSS
 ttrss::dir: /srv/www/ttrss.rupert-lane.org

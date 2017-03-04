@@ -3,13 +3,14 @@
 # stock.
 
 # Parameters:
+# bin - directory for startup script for Ghost
 # dir - directory where Ghost is installed
 # user - user to run ghost as
 
-class ghost(String $dir, String $user) {
+class ghost(String $bin, String $dir, String $user) {
   require postgres;
 
-  package { ['build-essential', 'nodejs', 'nodejs-legacy', 'npm', 'unzip']:
+  package { ['unzip']:
     ensure => installed,
     notify => Service['ghost'],
   }
@@ -17,7 +18,7 @@ class ghost(String $dir, String $user) {
   user { $user:
     ensure => present,
     system => true,
-    managehome => false,
+    managehome => true,
     notify => Service['ghost'],
   }
 
