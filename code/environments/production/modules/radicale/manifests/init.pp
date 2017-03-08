@@ -15,6 +15,7 @@
 # 26 June 2016) does not seem to work with CalDAVSync on Android so
 # you should check out the latest stable version 1.1.1
 
+# Ensure python3 and python3-setuptools are installed.
 # From the unpacked git repo, run sudo python3 ./setup.py install
 # there to get the correct python dependencies and install it to
 # /usr/local/bin

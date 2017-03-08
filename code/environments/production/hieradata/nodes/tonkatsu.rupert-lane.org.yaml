@@ -12,6 +12,7 @@ classes:
   - postgres
   - spamassassin
   - multiccy
+  - radicale
 
 # Sites to serve via nginx
 nginx::sites:
@@ -19,6 +20,7 @@ nginx::sites:
   - website: tonkatsu.rupert-lane.org
   - website: try-mts.com
     secondary: www.try-mts.com
+  - website: cal.rupert-lane.org
 
 # We are a postfix mailhost
 postfix::server_type: mailhost
@@ -61,3 +63,7 @@ multiccy::user: multiccy
 ghost::dir: /srv/www/try-mts.com/ghost
 ghost::bin: /srv/www/try-mts.com/bin
 ghost::user: ghostmts
+
+# Radicale
+radicale::data_dir: /srv/www/cal.rupert-lane.org
+radicale::user: radicale

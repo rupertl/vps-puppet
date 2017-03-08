@@ -6,7 +6,6 @@ classes:
   - letsencrypt
   - nginx
   - ttrss
-  - radicale
 
 # Sites to serve via nginx
 nginx::sites:
@@ -14,7 +13,6 @@ nginx::sites:
   - website: www.rupert-lane.org
     secondary: rupert-lane.org
   - website: ttrss.rupert-lane.org
-  - website: cal.rupert-lane.org
 
 # Tiny Tiny RSS
 ttrss::dir: /srv/www/ttrss.rupert-lane.org
@@ -39,7 +37,3 @@ backups::file_backups:
     full_day: 12
     hour: 21
     minute: 32
-
-# Radicale
-radicale::data_dir: /srv/www/cal.rupert-lane.org
-radicale::user: radicale
