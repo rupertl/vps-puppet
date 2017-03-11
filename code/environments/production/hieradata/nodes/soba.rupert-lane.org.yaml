@@ -10,8 +10,6 @@ classes:
 # Sites to serve via nginx
 nginx::sites:
   - website: soba.rupert-lane.org
-  - website: www.rupert-lane.org
-    secondary: rupert-lane.org
   - website: ttrss.rupert-lane.org
 
 # Tiny Tiny RSS

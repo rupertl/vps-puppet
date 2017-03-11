@@ -21,6 +21,8 @@ nginx::sites:
   - website: try-mts.com
     secondary: www.try-mts.com
   - website: cal.rupert-lane.org
+  - website: www.rupert-lane.org
+    secondary: rupert-lane.org
 
 # We are a postfix mailhost
 postfix::server_type: mailhost
