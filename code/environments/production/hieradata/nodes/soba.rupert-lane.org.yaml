@@ -5,16 +5,10 @@ classes:
   - backups
   - letsencrypt
   - nginx
-  - ttrss
 
 # Sites to serve via nginx
 nginx::sites:
   - website: soba.rupert-lane.org
-  - website: ttrss.rupert-lane.org
-
-# Tiny Tiny RSS
-ttrss::dir: /srv/www/ttrss.rupert-lane.org
-ttrss::user: ttrss
 
 # Where to save backups
 backups::dir: /srv/backups

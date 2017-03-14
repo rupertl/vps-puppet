@@ -13,6 +13,7 @@ classes:
   - spamassassin
   - multiccy
   - radicale
+  - ttrss
 
 # Sites to serve via nginx
 nginx::sites:
@@ -23,6 +24,7 @@ nginx::sites:
   - website: cal.rupert-lane.org
   - website: www.rupert-lane.org
     secondary: rupert-lane.org
+  - website: ttrss.rupert-lane.org
 
 # We are a postfix mailhost
 postfix::server_type: mailhost
@@ -69,3 +71,7 @@ ghost::user: ghostmts
 # Radicale
 radicale::data_dir: /srv/www/cal.rupert-lane.org
 radicale::user: radicale
+
+# Tiny Tiny RSS
+ttrss::dir: /srv/www/ttrss.rupert-lane.org
+ttrss::user: ttrss
