@@ -41,7 +41,7 @@ opendkim::secondary_domains: "%{alias('postfix::secondary_domains')}"
 
 # Where to save backups
 backups::dir: /srv/backups
-backups::backup_host: mezzelune.rupert-lane.org
+backups::backup_host: rigatone.rupert-lane.org
 backups::file_backups:
   - name: tonkatsu-opt
     from: /opt
