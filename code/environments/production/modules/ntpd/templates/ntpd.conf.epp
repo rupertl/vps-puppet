@@ -5,6 +5,6 @@
 server <%= $server %>
 <% } -%>
 
-<% if $ntpd:is_server == true { -%>
+<% if $ntpd::is_server == true { -%>
 listen on *
 <% } -%>
