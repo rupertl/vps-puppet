@@ -1,0 +1,10 @@
+# cathode.yaml - hiera definitions for node cathode (home server)
+---
+
+# We use country servers and act as a time server on the local network
+ntpd::servers:
+  - 0.jp.pool.ntp.org
+  - 1.jp.pool.ntp.org
+  - 2.jp.pool.ntp.org
+  - 3.jp.pool.ntp.org
+ntpd::is_server: true

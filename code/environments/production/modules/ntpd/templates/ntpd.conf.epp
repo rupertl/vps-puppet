@@ -4,3 +4,7 @@
 <% $ntpd::servers.each |$server| { -%>
 server <%= $server %>
 <% } -%>
+
+<% if $ntpd:is_server == true { -%>
+listen on *
+<% } -%>

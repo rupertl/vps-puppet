@@ -1,8 +1,8 @@
 # This class manages the package, files and service for NTP services.
-# We use openntpd across Ubuntu and Debian
+# We use openntpd
 # This module only includes configs which are not stock.
 
-class ntpd(Array $servers) {
+class ntpd(Array $servers, Boolean $is_server = false) {
   $config_dir = "/etc/openntpd"
 
   package { 'openntpd':
