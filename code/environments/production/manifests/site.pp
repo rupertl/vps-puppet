@@ -4,4 +4,4 @@
 # control are executed.
 
 # Determine what classes to configure on this host from hiera
-hiera_include('classes')
+lookup('classes', {merge => unique}).include

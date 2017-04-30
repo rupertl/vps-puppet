@@ -1,25 +1,24 @@
 # hiera.yaml - configuration for hiera lookup for puppet
 ---
-# Format for hiera files
-# Uses encrypted YAML from https://github.com/TomPoulton/hiera-eyaml
-:backends:
-  - yaml
-  - eyaml
+version: 5
 
-# Where to find regular hiera data
-:yaml:
-  :datadir: "/etc/puppetlabs/code/environments/production/hieradata"
-
-# Where to find encrypted hiera data
-:eyaml:
-  :extension: 'eyaml'
-  :datadir: "/etc/puppetlabs/code/environments/production/hieradata"
-  # Keys for encryption/decryption. Private key should not be checked in.
-  :pkcs7_private_key: /etc/puppetlabs/secure/eyaml/keys/private_key.pkcs7.pem
-  :pkcs7_public_key:  /etc/puppetlabs/secure/eyaml/keys/public_key.pkcs7.pem
+# By default, use YAML format files
+defaults:
+  datadir: "/etc/puppetlabs/code/environments/production/hieradata"
+  data_hash: yaml_data
 
 # How to find hiera data
-# Try the file named after the machine under nodes or the common file
-:hierarchy:
-  - "nodes/%{::trusted.certname}"
-  - common
+hierarchy:
+  - name: "Per-node data (yaml version)"
+    path: "nodes/%{trusted.certname}.yaml"
+  - name: "Other YAML hierarchy levels"
+    paths:
+      - "common.yaml"
+  - name: "Per-node secrets"
+    paths:
+      - "common.eyaml"
+      - "nodes/%{trusted.certname}.eyaml"
+    lookup_key: eyaml_lookup_key
+    options:
+      pkcs7_private_key: /etc/puppetlabs/secure/eyaml/keys/private_key.pkcs7.pem
+      pkcs7_public_key:  /etc/puppetlabs/secure/eyaml/keys/public_key.pkcs7.pem
