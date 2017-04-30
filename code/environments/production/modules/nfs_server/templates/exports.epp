@@ -1,0 +1,6 @@
+# /etc/exports - Config for NFS server
+# This config is managed by puppet.
+#
+<% $nfs_server::exports.each |$export| { -%>
+<%= $export %>
+<% } -%>

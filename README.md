@@ -15,6 +15,7 @@ The configuration implements installation of the software below as modules:
 * etckeeper: store /etc in git
 * ghost: blogging system written in node.js
 * letsencrypt: generate SSL certificates
+* nfs_server: local network NFS server
 * nginx: web server
 * ntpd: synchronise system time
 * opendkim: email signing service
