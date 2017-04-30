@@ -14,4 +14,4 @@ ntpd::is_server: true
 
 # What to export over NFS
 nfs_server::exports:
-  - "/srv    10.0.0.0/255(rw,fsid=0,sync)"
+  - "/srv    10.0.0.0/8(rw,fsid=0,sync,no_subtree_check)"
