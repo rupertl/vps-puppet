@@ -25,10 +25,6 @@ MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@op
 # Privilege Separation is turned on for security
 UsePrivilegeSeparation yes
 
-# Lifetime and size of ephemeral version 1 server key
-KeyRegenerationInterval 3600
-ServerKeyBits 1024
-
 # Logging
 SyslogFacility AUTH
 LogLevel INFO
@@ -37,9 +33,6 @@ LogLevel INFO
 LoginGraceTime 120
 PermitRootLogin no
 StrictModes yes
-
-RSAAuthentication yes
-PubkeyAuthentication yes
 
 # Change to yes to enable challenge-response passwords (beware issues with
 # some PAM modules and threads)
