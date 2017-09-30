@@ -1,8 +1,8 @@
-This is the puppet configuration for my VPSs and also any scratch VMs I spin up at home. Although it reflects my requirements for the servers I run, other people may find it useful so I'm putting it up on github.
+This is the puppet configuration for my VPSs, home file server and also any scratch VMs I spin up at home. Although it reflects my requirements for the servers I run, other people may find it useful so I'm putting it up on github.
 
 This does not use a puppet master as I'm only managing a small number of nodes. Configs can be installed with `puppet apply` on each node instead.
 
-I'm using Debian Jessie and Puppet 4.4 at present. Some Puppet 4 features such as EPP templates are used. Most site specific data is managed via Hiera (plus the encrypted YAML module for sensitive data). I don't generally use modules as I only need Debian support and don't want the overhead of managing modules on each server.
+I'm using Debian Jessie (some machines are on Stretch) and Puppet 4.10 at present. Some Puppet 4 features such as EPP templates are used. Most site specific data is managed via Hiera (plus the encrypted YAML module for sensitive data). I don't generally use modules as I only need Debian support and don't want the overhead of managing modules on each server.
 
 ## Modules
 
