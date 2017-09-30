@@ -25,7 +25,7 @@ essential::packages:
   - git
   - make
   - openssl
-  - screen
+  - tmux
 
 # NTP servers
 ntpd::servers:
