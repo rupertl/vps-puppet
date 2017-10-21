@@ -70,6 +70,9 @@ ssh_public::keys:
   Rupert Lane (indeed) <rupert@indeed.com>:
     type: ssh-rsa
     key: "AAAAB3NzaC1yc2EAAAADAQABAAABAQDusdJr3Q277Yt9RKEcnDaY97uYzFigF1HRcefK5HudwW1O1RAajMkIJ2B+6x86ECYSXPVkYzZ89zznuENtDpifsHNI2CjygdZSnKrSdn6h+/vYKYdyY5mnJd/ne8eFRb74YC8Q8EpnnbYpdoSdWoGJRFgshovcaLM/AaBUdSzuX8Ipvxn1XfQQFWz2YZ8Z6lyHLzJ0YmRryoY5XlpPngNqBGSzIih1DlXWsOuAztr6BaqLP2THCVeKSYARTnky9NupAgPXQiFu+L/1+6G/UMHRV8Bq6O9nLag0g3bGmLXmDZ4j8Mm56wUvNqdrsYgZJQzMAUTiGbRp2xr2+8+QeJ5D"
+  Rupert Lane (chuwi-termux) <rupert@rupert-lane.org>:
+    type: ssh-ed25519
+    key: "AAAAC3NzaC1lZDI1NTE5AAAAIDEunJgNDlsJVmeGNIi3GogavLDkP3JuxBxlZRDX3nOk"
 
 # User to grant sudo access to
 sudo::users:
