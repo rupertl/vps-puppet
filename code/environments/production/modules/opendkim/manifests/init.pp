@@ -78,9 +78,9 @@ class opendkim ($primary_domain, $secondary_domains) {
   # Create the directory for the socket postfix will use
   file { "/var/spool/postfix/opendkim":
     ensure => directory,
-    mode => '0755',
+    mode => '0750',
     owner => 'opendkim',
-    group => 'postfix',
+    group => 'opendkim',
     notify => Service['opendkim'],
   }
 
