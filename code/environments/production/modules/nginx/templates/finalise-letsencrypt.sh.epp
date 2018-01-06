@@ -12,10 +12,10 @@
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin
 
 echo "# Generating certs"
-/opt/letsencrypt/letsencrypt.sh --cron
+/opt/dehydrated/dehydrated --cron
 
 echo "# Enabling https sites"
-for dom in `awk '{print $1}' < /opt/letsencrypt/domains.txt`
+for dom in `awk '{print $1}' < /opt/dehydrated/domains.txt`
 do
     ln -s /etc/nginx/sites-available/https.$dom /etc/nginx/sites-enabled/https.$dom
 done

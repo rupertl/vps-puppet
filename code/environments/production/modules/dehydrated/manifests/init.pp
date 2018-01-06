@@ -1,17 +1,18 @@
-# This class installs the letsencrypt.sh client from git.
+# This class installs the dehydrated client from git.
 
-# Client from https://github.com/lukas2511/letsencrypt.sh
+# Client from https://github.com/lukas2511/dehydrated
+# (was formerly https://github.com/lukas2511/letsencrypt.sh)
 # Method based on http://blog.thesparktree.com/post/138452017979/automating-ssl-certificates-using-nginx
 
-class letsencrypt() {
+class dehydrated() {
   # Where to clone the repo
-  $install_dir = '/opt/letsencrypt'
+  $install_dir = '/opt/dehydrated'
   # The script from the repo
-  $script = "${install_dir}/letsencrypt.sh"
-  # Where to store challenges when running letsencrypt.sh
-  $challenge_dir = "${install_dir}/.acme-challenges"
+  $script = "${install_dir}/dehydrated"
+  # Where to store challenges when running dehydrated
+  $challenge_dir = "/srv/www/acme-challenges"
   # Source repository
-  $repo = 'https://github.com/lukas2511/letsencrypt.sh.git'
+  $repo = 'https://github.com/lukas2511/dehydrated.git'
 
   # Clone the repository
   exec {"git clone":

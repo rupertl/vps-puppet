@@ -21,7 +21,7 @@ server {
     # Serve letsencrypt challenges
     location '/.well-known/acme-challenge' {
         default_type "text/plain";
-        alias /opt/letsencrypt/.acme-challenges;
+        alias /srv/www/acme-challenges;
     }
 
     # Redirect everything else to https

@@ -11,8 +11,8 @@ server {
     server_name <%= $secondary %>;
 
     ssl                  on;
-    ssl_certificate      /opt/letsencrypt/certs/<%= $website %>/fullchain.pem;
-    ssl_certificate_key  /opt/letsencrypt/certs/<%= $website %>/privkey.pem;
+    ssl_certificate      /opt/dehydrated/certs/<%= $website %>/fullchain.pem;
+    ssl_certificate_key  /opt/dehydrated/certs/<%= $website %>/privkey.pem;
 
     return 301 $scheme://<%= $website %>$request_uri;
 }
@@ -23,8 +23,8 @@ server {
     listen       443;
     server_name <%= $website %>;
     ssl                  on;
-    ssl_certificate      /opt/letsencrypt/certs/<%= $website %>/fullchain.pem;
-    ssl_certificate_key  /opt/letsencrypt/certs/<%= $website %>/privkey.pem;
+    ssl_certificate      /opt/dehydrated/certs/<%= $website %>/fullchain.pem;
+    ssl_certificate_key  /opt/dehydrated/certs/<%= $website %>/privkey.pem;
 
     location /google07ddf4de5150aff6.html {
         alias /srv/www/<%= $website %>/google07ddf4de5150aff6.html;
