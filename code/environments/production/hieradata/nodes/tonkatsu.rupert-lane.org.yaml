@@ -15,6 +15,13 @@ classes:
   - radicale
   - ttrss
 
+# Dehydrated: generate letsencrypt certificates
+dehydrated::install_dir: /opt/dehydrated
+dehydrated::root_dir: /srv/www/dehydrated
+dehydrated::domains_txt: "%{hiera('dehydrated::root_dir')}/domains.txt"
+dehydrated::challenge_dir: "%{hiera('dehydrated::root_dir')}/acme_challenges"
+dehydrated::certs_dir: "%{hiera('dehydrated::root_dir')}/certs"
+
 # Sites to serve via nginx
 nginx::sites:
   - website: multiccy.rupert-lane.org

@@ -4,15 +4,20 @@
 # (was formerly https://github.com/lukas2511/letsencrypt.sh)
 # Method based on http://blog.thesparktree.com/post/138452017979/automating-ssl-certificates-using-nginx
 
-class dehydrated() {
-  # Where to clone the repo
-  $install_dir = '/opt/dehydrated'
+# Parameters
+# install_dir: Where to clone the software
+# root_dir: Base directory for data files
+# domains_txt: File containing domain names to generate certificates for
+# challenge_dir: Directory to serve ACME challenges to get certificates
+# certs_dir: Directory to store generated certificates
+
+class dehydrated(String $install_dir, String $root_dir, String $domains_txt, String $challenge_dir, String $certs_dir) {
   # The script from the repo
   $script = "${install_dir}/dehydrated"
-  # Where to store challenges when running dehydrated
-  $challenge_dir = "/srv/www/acme-challenges"
   # Source repository
   $repo = 'https://github.com/lukas2511/dehydrated.git'
+  # Generated config file
+  $config_file = '/etc/dehydrated/config'
 
   # Clone the repository
   exec {"git clone":
@@ -26,13 +31,37 @@ class dehydrated() {
   file { $script:
     ensure => file,
     mode => '0744',
-    notify => File[$challenge_dir],
+  }
+
+  # Create the root directory for working files
+  file { $root_dir:
+    ensure => directory,
+    mode => '0755',
+    notify => File[$domains_txt, $challenge_dir, $certs_dir],
+  }
+
+  # Create the file to store domains in
+  file { $domains_txt:
+    ensure => present,
+    mode => '0644',
   }
 
   # Create the directory to store challenges
   file { $challenge_dir:
     ensure => directory,
     mode => '0755',
+  }
+
+  # Create the directory to store certificates
+  file { $certs_dir:
+    ensure => directory,
+    mode => '0700',
+  }
+
+  # Dehydrated main config file
+  file { $config_file:
+    ensure  => file,
+    content => epp("dehydrated/config.epp"),
   }
 
   # Create a cron job to renew any certs
