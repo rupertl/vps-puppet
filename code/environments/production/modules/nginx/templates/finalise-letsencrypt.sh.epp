@@ -15,7 +15,7 @@ echo "# Generating certs"
 /opt/dehydrated/dehydrated --cron
 
 echo "# Enabling https sites"
-for dom in `awk '{print $1}' < /opt/dehydrated/domains.txt`
+for dom in `awk '{print $1}' < <%= $nginx::domains_txt %>`
 do
     ln -s /etc/nginx/sites-available/https.$dom /etc/nginx/sites-enabled/https.$dom
 done

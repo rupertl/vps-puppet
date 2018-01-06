@@ -55,7 +55,7 @@ CERTDIR=<%= $dehydrated::certs_dir %>
 #ACCOUNTDIR="${BASEDIR}/accounts"
 
 # Output directory for challenge-tokens to be served by webserver or deployed in HOOK (default: /var/www/dehydrated)
-WELLKNOWN=<%= dehydrated::challenge_dir %>
+WELLKNOWN=<%= $dehydrated::challenge_dir %>
 
 # Default keysize for private keys (default: 4096)
 #KEYSIZE="4096"

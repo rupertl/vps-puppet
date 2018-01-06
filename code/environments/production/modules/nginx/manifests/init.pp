@@ -1,12 +1,16 @@
 # This class manages the package, files and service for the nginx
-# webserver and any associated website. It only includes configs which
-# are not stock Ubuntu.
+# webserver and any associated website.
 
-class nginx(Array $sites) {
+# Parameters
+# sites: Array containing hashes with keys website and secondary
+# domains_txt: File containing domain names to generate certificates for
+# challenge_dir: Directory to serve ACME challenges to get certificates
+# certs_dir: Directory to store generated certificates
+
+class nginx(Array $sites, String $domains_txt, String $challenge_dir, String $certs_dir) {
   require dehydrated
 
   $config_dir = "/etc/nginx"
-  $le_domains = '/opt/dehydrated/domains.txt'
 
   package { 'nginx':
     ensure => installed,
@@ -64,8 +68,8 @@ class nginx(Array $sites) {
 
     exec {"add ${website} to dehydrated domains.txt":
       path    => '/usr/sbin:/usr/bin:/sbin:/bin',
-      unless  => "grep -q ${website} ${le_domains}",
-      command => "sh -c 'echo ${website} ${site_hash[secondary]} >> ${le_domains}'",
+      unless  => "grep -q ${website} ${domains_txt}",
+      command => "sh -c 'echo ${website} ${site_hash[secondary]} >> ${domains_txt}'",
       require => Package['nginx'],
     }
 

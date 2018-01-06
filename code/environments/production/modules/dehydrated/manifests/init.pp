@@ -17,7 +17,8 @@ class dehydrated(String $install_dir, String $root_dir, String $domains_txt, Str
   # Source repository
   $repo = 'https://github.com/lukas2511/dehydrated.git'
   # Generated config file
-  $config_file = '/etc/dehydrated/config'
+  $config_dir = '/etc/dehydrated'
+  $config_file = "${config_dir}/config"
 
   # Clone the repository
   exec {"git clone":
@@ -59,8 +60,15 @@ class dehydrated(String $install_dir, String $root_dir, String $domains_txt, Str
   }
 
   # Dehydrated main config file
+  file { $config_dir:
+    ensure => directory,
+    mode => '0755',
+    notify => File[$config_file],
+  }
+
   file { $config_file:
     ensure  => file,
+    mode => '0644',
     content => epp("dehydrated/config.epp"),
   }
 
