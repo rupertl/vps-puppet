@@ -38,7 +38,7 @@ LOGFILE="/var/log/duplicity-$NAME.log"
 # Keep the last logile
 [ -r $LOGFILE ] && mv $LOGFILE ${LOGFILE}.1
 
-OPTS="--ssh-backend=pexpect --name=$NAME"
+OPTS="--name=$NAME"
 SOURCE="$LOCAL_DIR"
 DEST="$REMOTE_DIR"
 
