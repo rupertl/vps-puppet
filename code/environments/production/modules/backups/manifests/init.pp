@@ -20,7 +20,7 @@
 # eg SPEC=<SPEC_FILE> /usr/local/bin/backup-duplicity.sh full
 
 class backups(String $dir, String $backup_host, Array $file_backups) {
-  package { ['libdatetime-perl', 'duplicity']:
+  package { ['libdatetime-perl', 'duplicity', 'python-pexpect']:
     ensure => installed,
   }
 
