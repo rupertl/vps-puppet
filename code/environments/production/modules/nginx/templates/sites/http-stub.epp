@@ -21,7 +21,7 @@ server {
     # Serve letsencrypt challenges
     location '/.well-known/acme-challenge' {
         default_type "text/plain";
-        alias <%= $nginx::challenge_dir %>
+        alias <%= $nginx::challenge_dir %>;
     }
 
     # Redirect everything else to https
