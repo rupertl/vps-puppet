@@ -82,6 +82,7 @@ ghost::user: ghostmts
 
 # Radicale
 radicale::data_dir: /srv/www/cal.rupert-lane.org
+radicale::install_dir: /opt/radicale
 radicale::user: radicale
 
 # Tiny Tiny RSS

@@ -1,0 +1,17 @@
+<%- | String $venv_dir | -%>
+#!/bin/bash
+
+# Install or upgrade radicale to a venv in <%= $venv_dir %>
+# Managed by puppet
+
+[ -d <%= $venv_dir %> ] || virtualenv -p python3 <%= $venv_dir %>
+
+VENV=<%= $venv_dir %>/bin/activate
+if [ ! -f "$VENV" ]
+then
+    echo "Virtualenv not found"
+    exit 1
+fi
+
+source $VENV
+python3 -m pip install --upgrade radicale

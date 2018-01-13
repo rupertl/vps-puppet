@@ -1,3 +1,6 @@
+# /etc/radicale.config - Radicale config file
+# Managed by puppet
+
 [server]
 
 # CalDAV server hostnames separated by a comma
@@ -12,6 +15,18 @@ daemon = False
 
 # File storing the PID in daemon mode
 #pid =
+
+# The maximum number of parallel connections. Set to 0 to disable the limit.
+# Default: 20
+#max_connections
+
+# The maximum size of the request body. (bytes)
+# Default: 10000000
+#max_content_length
+
+# Socket timeout. (seconds)
+# Default: 10
+#timeout
 
 # SSL flag, enable HTTPS protocol
 ssl = False
@@ -31,12 +46,6 @@ ssl = False
 # Reverse DNS to resolve client address in logs
 dns_lookup = True
 
-# Root URL of Radicale (starting and ending with a slash)
-base_prefix = /
-
-# Possibility to allow URLs cleaned by a HTTP server, without the base_prefix
-#can_skip_base_prefix = False
-
 # Message displayed in the client when a password is needed
 #realm = Radicale - Password Required
 
@@ -50,89 +59,21 @@ request = utf-8
 stock = utf-8
 
 
-[well-known]
-
-# Path where /.well-known/caldav/ is redirected
-#caldav = '/%(user)s/caldav/'
-
-# Path where /.well-known/carddav/ is redirected
-#carddav = '/%(user)s/carddav/'
-
-
 [auth]
 
 # Authentication method
-# Value: None | htpasswd | IMAP | LDAP | PAM | courier | http | remote_user | custom
-type = None
+type = http_x_remote_user
 
-# Custom authentication handler
-#custom_handler =
-
-# Htpasswd filename
-#htpasswd_filename = /etc/radicale/users
-
-# Htpasswd encryption method
-# Value: plain | sha1 | ssha | crypt | bcrypt | md5
-#htpasswd_encryption = crypt
-
-# LDAP server URL, with protocol and port
-#ldap_url = ldap://localhost:389/
-
-# LDAP base path
-#ldap_base = ou=users,dc=example,dc=com
-
-# LDAP login attribute
-#ldap_attribute = uid
-
-# LDAP filter string
-# placed as X in a query of the form (&(...)X)
-# example: (objectCategory=Person)(objectClass=User)(memberOf=cn=calenderusers,ou=users,dc=example,dc=org)
-# leave empty if no additional filter is needed
-#ldap_filter =
-
-# LDAP dn for initial login, used if LDAP server does not allow anonymous searches
-# Leave empty if searches are anonymous
-#ldap_binddn =
-
-# LDAP password for initial login, used with ldap_binddn
-#ldap_password =
-
-# LDAP scope of the search
-#ldap_scope = OneLevel
-
-# IMAP Configuration
-#imap_hostname = localhost
-#imap_port = 143
-#imap_ssl = False
-
-# PAM group user should be member of
-#pam_group_membership =
-
-# Path to the Courier Authdaemon socket
-#courier_socket =
-
-# HTTP authentication request URL endpoint
-#http_url =
-# POST parameter to use for username
-#http_user_parameter =
-# POST parameter to use for password
-#http_password_parameter =
-
-
-[git]
-
-# Git default options
-#committer = Radicale <radicale@example.com>
+# Average delay after failed login attempts in seconds.
+# Default: 1
+#delay
 
 
 [rights]
 
 # Rights backend
-# Value: None | authenticated | owner_only | owner_write | from_file | custom
-type = None
-
-# Custom rights handler
-#custom_handler =
+# Value: None | authenticated | owner_only | owner_write | from_file 
+type = owner_only
 
 # File for rights management from_file
 #file = ~/.config/radicale/rights
@@ -140,38 +81,55 @@ type = None
 
 [storage]
 
-# Storage backend
-# -------
-# WARNING: ONLY "filesystem" IS DOCUMENTED AND TESTED,
-#          OTHER BACKENDS ARE NOT READY FOR PRODUCTION.
-# -------
-# Value: filesystem | multifilesystem | database | custom
-#type = filesystem
+# Available backends: multifilesystem - Stores the data in the filesystem.
+# Default: multifilesystem
+#type
 
-# Custom storage handler
-#custom_handler =
-
-# Folder for storing local collections, created if not present
+# Folder for storing local collections, created if not present.
+# Default: /var/lib/radicale/collections
 filesystem_folder = <%= $radicale::data_dir %>
 
-# Database URL for SQLAlchemy
-# dialect+driver://user:password@host/dbname[?key=value..]
-# For example: sqlite:///var/db/radicale.db, postgresql://user:password@localhost/radicale
-# See http://docs.sqlalchemy.org/en/rel_0_8/core/engines.html#sqlalchemy.create_engine
-#database_url =
+# Lock the storage. This must be disabled if locking is not supported by the underlying file system. Never start multiple instances of Radicale or edit the storage externally while Radicale is running if disabled.
+# Default: True
+#filesystem_locking
+
+# Delete sync-token that are older than the specified time. (seconds)
+# Default: 2592000
+#max_sync_token_age
+
+# Sync all changes to disk during requests. (This can impair performance.) Disabling it increases the risk of data loss, when the system crashes or power fails!
+# Default: True
+#filesystem_fsync
+
+# Command that is run after changes to storage. Take a look at the Versioning page for an example.
+# Default:
+#hook
+
+
+[web]
+
+# The backend that provides the web interface of Radicale. none or internal
+# Default: internal
+#type
 
 
 [logging]
 
-# Logging configuration file
-# If no config is given, simple information is printed on the standard output
-# For more information about the syntax of the configuration file, see:
-# http://docs.python.org/library/logging.config.html
-#config = /etc/radicale/logging
-# Set the default logging level to debug
-#debug = False
-# Store all environment variables (including those set in the shell)
-#full_environment = False
+# Set the default logging level to debug.
+# Default: False
+#debug
+
+# Log all environment variables (including those set in the shell).
+# Default: False
+#full_environment
+
+# Don’t include passwords in logs.
+# Default: True
+#mask_passwords
+
+# Logging configuration file.
+# Default:
+#config
 
 
 [headers]

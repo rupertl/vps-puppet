@@ -1,0 +1,17 @@
+<%- | String $venv_dir | -%>
+#!/bin/bash
+
+# Run radicale in a venv
+# Managed by puppet
+
+export PATH=/usr/bin:/bin:/sbin
+
+VENV=<%= $venv_dir %>/bin/activate
+if [ ! -f "$VENV" ]
+then
+    echo "Virtualenv not found"
+    exit 1
+fi
+
+source $VENV
+python3 -m radicale

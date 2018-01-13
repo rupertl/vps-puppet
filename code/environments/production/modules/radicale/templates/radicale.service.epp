@@ -4,10 +4,11 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/radicale
+ExecStart=<%= $radicale::install_dir %>/run.sh
 WorkingDirectory=<%= $radicale::data_dir %>
 User=<%= $radicale::user %>
 Group=<%= $radicale::user %>
+UMask=0027
 StandardOutput=syslog
 StandardError=syslog
 
