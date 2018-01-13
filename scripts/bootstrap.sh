@@ -1,4 +1,4 @@
-#!/bin/bash
+%#!/bin/bash
 
 # Bootstraps a new server by installing Puppet and some essential
 # modules then cloning the vps-puppet repo.
@@ -14,11 +14,11 @@ apt-get -y install git
 
 echo "## Getting Puppet PC1"
 cd /tmp
-wget -q https://apt.puppetlabs.com/puppetlabs-release-pc1-jessie.deb
+wget -q https://apt.puppetlabs.com/puppetlabs-release-pc1-stretch.deb
 
 echo "## Installing Puppet PC1"
-dpkg -i /tmp/puppetlabs-release-pc1-jessie.deb
-rm -f /tmp/puppetlabs-release-pc1-jessie.deb
+dpkg -i /tmp/puppetlabs-release-pc1-stretch.deb
+rm -f /tmp/puppetlabs-release-pc1-stretch.deb
 
 echo "## Updating package list again"
 apt-get -y update
