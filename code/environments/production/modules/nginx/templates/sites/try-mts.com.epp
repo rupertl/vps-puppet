@@ -8,6 +8,7 @@
 # Redirect secondary to primary
 server {
     listen      443;
+    listen      [::]:443;
     server_name <%= $secondary %>;
 
     ssl                  on;
@@ -21,6 +22,7 @@ server {
 # Main config
 server {
     listen       443;
+    listen       [::]:443;
     server_name <%= $website %>;
     ssl                  on;
     ssl_certificate      <%= $nginx::certs_dir %>/<%= $website %>/fullchain.pem;

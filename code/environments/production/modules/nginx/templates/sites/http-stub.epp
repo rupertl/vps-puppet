@@ -8,6 +8,7 @@
 # Redirect secondary to primary
 server {
     listen      80;
+    listen      [::]:80;
     server_name <%= $secondary %>;
     return 301  $scheme://<%= $website %>$request_uri;
 }
@@ -16,6 +17,7 @@ server {
 # Main no-www
 server {
     listen      80;
+    listen      [::]:80;
     server_name <%= $website %>;
 
     # Serve letsencrypt challenges
