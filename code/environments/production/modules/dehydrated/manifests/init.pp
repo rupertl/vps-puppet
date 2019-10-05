@@ -31,7 +31,7 @@ class dehydrated(String $install_dir, String $root_dir, String $domains_txt, Str
   # Ensure the script is executable
   file { $script:
     ensure => file,
-    mode => '0744',
+    mode => '0755',
   }
 
   # Create the root directory for working files
