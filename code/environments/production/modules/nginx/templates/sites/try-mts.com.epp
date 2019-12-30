@@ -28,22 +28,16 @@ server {
     ssl_certificate      <%= $nginx::certs_dir %>/<%= $website %>/fullchain.pem;
     ssl_certificate_key  <%= $nginx::certs_dir %>/<%= $website %>/privkey.pem;
 
-    location /google07ddf4de5150aff6.html {
-        alias /srv/www/<%= $website %>/google07ddf4de5150aff6.html;
+    # Serve Hugo files statically
+    root /srv/www/try-mts.com/hugo/public;
+    index index.html;
+
+    # Rewrite for old Ghost RSS feed
+    location ~ ^/(?:feed|feeds|rss)  {
+         return 301 /index.xml;
     }
 
-    # Serve static files
-    location /files/ {
-        alias /srv/www/<%= $website %>/files/;
-        autoindex off;
-    }
-
-    # Reverse proxy everything to the node instance
     location / {
-        proxy_set_header   X-Forwarded-For        $proxy_add_x_forwarded_for;
-        proxy_set_header   X-Forwarded-Proto      $scheme;
-        proxy_set_header   X-Real-IP              $remote_addr;
-        proxy_set_header   Host                   $http_host;
-        proxy_pass         http://127.0.0.1:10330;
+        try_files $uri $uri/ =404;
     }
 }
