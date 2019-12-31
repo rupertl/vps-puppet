@@ -13,7 +13,6 @@ The configuration implements installation of the software below as modules:
 * dovecot: IMAP mailbox server
 * essential: install general utility packages
 * etckeeper: store /etc in git
-* ghost: blogging system written in node.js
 * dehydrated: generate SSL certificates
 * nfs_server: local network NFS server
 * nginx: web server

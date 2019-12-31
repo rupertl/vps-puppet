@@ -3,7 +3,6 @@
 # What classses to install
 classes:
   - backups
-  - ghost
   - dehydrated
   - nginx
   - dovecot
@@ -74,11 +73,6 @@ backups::file_backups:
 # Multiccy webapp
 multiccy::dir: /srv/www/multiccy.rupert-lane.org/multiccy
 multiccy::user: multiccy
-
-# Ghost blog try-mts.com
-ghost::dir: /srv/www/try-mts.com/ghost
-ghost::bin: /srv/www/try-mts.com/bin
-ghost::user: ghostmts
 
 # Radicale
 radicale::data_dir: /srv/www/cal.rupert-lane.org
