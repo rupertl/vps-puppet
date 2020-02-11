@@ -1,6 +1,9 @@
 # /etc/postfix/main.cf - Postfix main config file for satellites.
 # Managed by puppet
 
+# Config is up to date with Postfix 3
+compatibility_level = 3
+
 # The internet hostname of this mail system.
 myhostname = <%= $::fqdn %>
 
