@@ -1,7 +1,11 @@
-%#!/bin/bash
+#!/bin/bash
 
 # Bootstraps a new server by installing Puppet and some essential
 # modules then cloning the vps-puppet repo.
+#
+# This now uses the stock puppet 5.5 available through Debian rather
+# then using the package released by puppet.com. The root directory
+# has changed as a result from /etc/puppetlabs to /etc/puppet
 
 echo "## Updating package list"
 apt-get -y update
@@ -12,32 +16,18 @@ apt-get -y upgrade
 echo "## Installing git"
 apt-get -y install git
 
-echo "## Getting Puppet PC1"
-cd /tmp
-wget -q https://apt.puppetlabs.com/puppetlabs-release-pc1-stretch.deb
+echo "## Getting Puppet and modules"
+apt-get -y install puppet hiera-eyaml
 
-echo "## Installing Puppet PC1"
-dpkg -i /tmp/puppetlabs-release-pc1-stretch.deb
-rm -f /tmp/puppetlabs-release-pc1-stretch.deb
-
-echo "## Updating package list again"
-apt-get -y update
-
-echo "## Installing puppet"
-apt-get -y install puppet-agent
-
-echo "## Moving away the old /etc/puppetlabs"
-mv /etc/puppetlabs /tmp/old-etc-puppetlabs
+echo "## Moving away the old /etc/puppet"
+mv /etc/puppet /tmp/old-etc-puppet
 
 echo "## Cloning the vps-puppet repo"
-git clone https://github.com/rupertl/vps-puppet.git /etc/puppetlabs
-
-echo "## Installing the EYAML gem"
-/opt/puppetlabs/puppet/bin/gem install hiera-eyaml
-ln -s /opt/puppetlabs/puppet/bin/eyaml /opt/puppetlabs/bin/
+git clone https://github.com/rupertl/vps-puppet.git /etc/puppet
 
 echo "## All done."
 echo "## Remember to install EYAML keys to"
-echo "## /etc/puppetlabs/secure/eyaml/keys/"
+echo "## /etc/puppet/secure/eyaml/keys/"
 echo "## Then run the following command to apply puppet config"
-echo "## puppet apply /etc/puppetlabs/code/environments/production/manifests/site.pp"
+echo "## puppet apply /etc/puppet/code/environments/production/manifests/site.pp"
+

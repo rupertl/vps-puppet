@@ -4,7 +4,7 @@ version: 5
 
 # By default, use YAML format files
 defaults:
-  datadir: "/etc/puppetlabs/code/environments/production/hieradata"
+  datadir: "/etc/puppet/code/environments/production/data"
   data_hash: yaml_data
 
 # How to find hiera data
@@ -20,5 +20,5 @@ hierarchy:
       - "nodes/%{trusted.certname}.eyaml"
     lookup_key: eyaml_lookup_key
     options:
-      pkcs7_private_key: /etc/puppetlabs/secure/eyaml/keys/private_key.pkcs7.pem
-      pkcs7_public_key:  /etc/puppetlabs/secure/eyaml/keys/public_key.pkcs7.pem
+      pkcs7_private_key: /etc/puppet/secure/eyaml/keys/private_key.pkcs7.pem
+      pkcs7_public_key:  /etc/puppet/secure/eyaml/keys/public_key.pkcs7.pem

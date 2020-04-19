@@ -2,7 +2,9 @@ This is the puppet configuration for my VPSs, home file server and also any scra
 
 This does not use a puppet master as I'm only managing a small number of nodes. Configs can be installed with `puppet apply` on each node instead.
 
-I'm using Debian Stretch and Puppet 4.10 at present. Some Puppet 4 features such as EPP templates are used. Most site specific data is managed via Hiera (plus the encrypted YAML module for sensitive data). I don't generally use modules as I only need Debian support and don't want the overhead of managing modules on each server.
+This works with Debian Buster and the version of puppet 5.5 included by Debian. Previous versions used the version of puppet packaged by Puppetlabs but the stock Debian one is modern enough now. Note that as part of this change, this repo should now be cloned to /etc/puppet instead of /etc/puppetlabs.
+
+Most site specific data is managed via Hiera (plus the encrypted YAML module for sensitive data). I don't generally use modules as I only need Debian support and don't want the overhead of managing modules on each server.
 
 ## Modules
 
@@ -42,12 +44,12 @@ wget -qO - https://raw.githubusercontent.com/rupertl/vps-puppet/master/scripts/b
 
 This will also install the [encrypted YAML](https://github.com/TomPoulton/hiera-eyaml) gem.
 
-Finally, copy the EYAML keys to `/etc/puppetlabs/secure/eyaml/keys/` and encrypted YAML files under `hieradata`. Obviously if you are not me you won't have these, so you'll need to regenerate any encrypted Hiera files.
+Finally, copy the EYAML keys to `/etc/puppet/secure/eyaml/keys/` and encrypted YAML files under `hieradata`. Obviously if you are not me you won't have these, so you'll need to regenerate any encrypted Hiera files.
 
 ## Use
 
 ```
-$ puppet apply /etc/puppetlabs/code/environments/production/manifests/site.pp
+$ puppet apply /etc/puppet/code/environments/production/manifests/site.pp
 ```
 
 ## License

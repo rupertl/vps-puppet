@@ -1,4 +1,4 @@
-#!/opt/puppetlabs/puppet/bin/ruby
+#!/usr/bin/ruby
 
 # Run puppet in noop mode to see if there are any differences between
 # the manifest and the current system config.
@@ -8,9 +8,9 @@
 
 hostname=`/bin/hostname`.strip
 
-command = '/opt/puppetlabs/bin/puppet apply '
+command = '/usr/bin/puppet apply '
 command << '--show_diff --noop --color=false '
-command << "/etc/puppetlabs/code/environments/production/manifests/site.pp "
+command << "/etc/puppet/code/environments/production/manifests/site.pp "
 command << '2>&1'
 
 output = `#{command}`
