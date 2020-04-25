@@ -2,7 +2,7 @@ This is the puppet configuration for my VPSs, home file server and also any scra
 
 This does not use a puppet master as I'm only managing a small number of nodes. Configs can be installed with `puppet apply` on each node instead.
 
-This works with Debian Buster and the version of puppet 5.5 included by Debian. Previous versions used the version of puppet packaged by Puppetlabs but the stock Debian one is modern enough now. Note that as part of this change, this repo should now be cloned to /etc/puppet instead of /etc/puppetlabs.
+This works with Debian Buster and the version of puppet 5.5 included by Debian. Previous versions used the version of puppet packaged by Puppetlabs. See the section at the end of this file on how to upgrade.
 
 Most site specific data is managed via Hiera (plus the encrypted YAML module for sensitive data). I don't generally use modules as I only need Debian support and don't want the overhead of managing modules on each server.
 
@@ -51,6 +51,24 @@ Finally, copy the EYAML keys to `/etc/puppet/secure/eyaml/keys/` and encrypted Y
 ```
 $ puppet apply /etc/puppet/code/environments/production/manifests/site.pp
 ```
+
+## Upgrading from Puppetlans Puppet 4 to Debian Puppet 5
+
+As of the move to Debian Buster I've switched from using the version of Puppet 4 provided by Puppetlabs to the stock Puppet 5 provided by Debian. Historically the version of Puppet provided by Debian lagged behind, but it is modern enough now. Having to deal with one less foreign apt repository is a plus.
+
+The main differnce between the two packages is that Debian Puppet expects its config files to be in `/etc/puppet` rather than `/etc/puppetlabe`. Some subdirectories have also moved, eg `hieradata` is now called `data`. As a result, I recommend something like the following set of steps to upgrade:
+
+```
+$ apt-get remove puppet-agent puppetlabs-release-pc1
+$ apt-get purge puppet-agent puppetlabs-release-pc1
+$ apt-get update && apt-get dist-upgrade
+$ mv /etc/puppetlabs /etc/OLD.puppetlabs
+$ apt-get install puppet hiera-eyaml
+$ mv /etc/puppet /etc/OLD.puppet
+$ git clone https://github.com/rupertl/vps-puppet.git /etc/puppet
+```
+
+Copy over any EYAML files and keys from `/etc/OLD.puppetlabs`, test it works with the usual puppet apply command and then remove `/etc/OLD.puppet*`.
 
 ## License
 
